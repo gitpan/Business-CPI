@@ -1,0 +1,24 @@
+---
+abstract: 'Common Payment Interface'
+author:
+  - 'André Walker <andre@andrewalker.net>'
+build_requires: {}
+configure_requires:
+  ExtUtils::MakeMaker: 6.30
+dynamic_config: 0
+generated_by: 'Dist::Zilla version 4.300028, CPAN::Meta::Converter version 2.120921'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Business-CPI
+requires:
+  Class::Load: 0
+  Email::Valid: 0
+  HTML::Element: 0
+  List::Util: 0
+  Locale::Currency: 0
+  Moo: 0
+resources:
+  repository: git://github.com/andrewalker/p5-business-cpi.git
+version: 0.1
