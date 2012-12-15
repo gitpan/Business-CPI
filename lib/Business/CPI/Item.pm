@@ -2,6 +2,8 @@ package Business::CPI::Item;
 # ABSTRACT: Product in the cart
 use Moo;
 
+our $VERSION = '0.2'; # VERSION
+
 has id => (
     coerce => sub { '' . $_[0] },
     is => 'ro',
@@ -43,7 +45,7 @@ Business::CPI::Item - Product in the cart
 
 =head1 VERSION
 
-version 0.1
+version 0.2
 
 =head1 DESCRIPTION
 

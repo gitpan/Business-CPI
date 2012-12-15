@@ -1,6 +1,8 @@
 package Business::CPI::Buyer;
 use Moo;
 
+our $VERSION = '0.2'; # VERSION
+
 has email => (
     isa => sub {
         Email::Valid->address( $_[0] ) || die "Must be a valid e-mail address";
@@ -33,7 +35,7 @@ Business::CPI::Buyer
 
 =head1 VERSION
 
-version 0.1
+version 0.2
 
 =head1 DESCRIPTION
 

@@ -5,6 +5,8 @@ use warnings;
 use strict;
 use Class::Load;
 
+our $VERSION = '0.2'; # VERSION
+
 sub new {
     my $class = shift;
 
@@ -32,7 +34,7 @@ Business::CPI - Common Payment Interface
 
 =head1 VERSION
 
-version 0.1
+version 0.2
 
 =head1 SYNOPSIS
 
@@ -80,6 +82,10 @@ Example:
 
     my $test1 = Business::CPI->new(gateway => 'Test', %data);
     my $test2 = Business::CPI::Gateway::Test->new(%data);     # exactly the same as above
+
+=head1 SPONSORED BY
+
+Aware - http://www.aware.com.br
 
 =head1 CAVEATS
 

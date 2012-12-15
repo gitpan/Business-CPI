@@ -4,6 +4,8 @@ package Business::CPI::Cart;
 use Moo;
 use Business::CPI::Item;
 
+our $VERSION = '0.2'; # VERSION
+
 has buyer => (
     is => 'ro',
     isa => sub { $_[0]->isa('Business::CPI::Buyer') or die "Must be a Business::CPI::Buyer" },
@@ -67,7 +69,7 @@ Business::CPI::Cart - Shopping cart
 
 =head1 VERSION
 
-version 0.1
+version 0.2
 
 =head1 DESCRIPTION
 

@@ -9,6 +9,8 @@ use Business::CPI::Cart;
 use Business::CPI::Buyer;
 use HTML::Element;
 
+our $VERSION = '0.2'; # VERSION
+
 has name => (
     is      => 'ro',
 #    isa     => 'Str',
@@ -142,7 +144,7 @@ Business::CPI::Gateway::Base - Father of all gateways
 
 =head1 VERSION
 
-version 0.1
+version 0.2
 
 =head1 ATTRIBUTES
 

@@ -3,6 +3,8 @@ package Business::CPI::Gateway::Test;
 
 use Moo;
 
+our $VERSION = '0.2'; # VERSION
+
 extends 'Business::CPI::Gateway::Base';
 
 sub get_hidden_inputs {
@@ -53,7 +55,7 @@ Business::CPI::Gateway::Test - Fake gateway
 
 =head1 VERSION
 
-version 0.1
+version 0.2
 
 =head1 DESCRIPTION
 
