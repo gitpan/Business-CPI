@@ -3,21 +3,51 @@ package Business::CPI::Gateway::Test;
 
 use Moo;
 
-our $VERSION = '0.2'; # VERSION
+our $VERSION = '0.3'; # VERSION
 
 extends 'Business::CPI::Gateway::Base';
 
 sub get_hidden_inputs {
     my ( $self, $info ) = @_;
 
+    my $buyer = $info->{buyer};
+    my $cart  = $info->{cart};
+
     my @hidden_inputs = (
         receiver_email => $self->receiver_email,
         currency       => $self->currency,
         encoding       => $self->form_encoding,
         payment_id     => $info->{payment_id},
-        buyer_name     => $info->{buyer}->name,
-        buyer_email    => $info->{buyer}->email,
+        buyer_name     => $buyer->name,
+        buyer_email    => $buyer->email,
     );
+
+    my %buyer_extra = (
+        address_line1    => 'shipping_address',
+        address_line2    => 'shipping_address2',
+        address_city     => 'shipping_city',
+        address_state    => 'shipping_state',
+        address_country  => 'shipping_country',
+        address_zip_code => 'shipping_zip',
+    );
+
+    for (keys %buyer_extra) {
+        if (my $value = $buyer->$_) {
+            push @hidden_inputs, ( $buyer_extra{$_} => $value );
+        }
+    }
+
+    my %cart_extra = (
+        discount => 'discount_amount',
+        handling => 'handling_amount',
+        tax      => 'tax_amount',
+    );
+
+    for (keys %cart_extra) {
+        if (my $value = $cart->$_) {
+            push @hidden_inputs, ( $cart_extra{$_} => $value );
+        }
+    }
 
     my $i = 1;
 
@@ -29,6 +59,19 @@ sub get_hidden_inputs {
             "item${i}_price" => $item->price,
             "item${i}_qty"   => $item->quantity,
           );
+
+        if (my $weight = $item->weight) {
+            push @hidden_inputs, ( "item${i}_weight" => $weight * 1000 ); # show in grams
+        }
+
+        if (my $ship = $item->shipping) {
+            push @hidden_inputs, ( "item${i}_shipping" => $ship );
+        }
+
+        if (my $ship = $item->shipping_additional) {
+            push @hidden_inputs, ( "item${i}_shipping2" => $ship );
+        }
+
         $i++;
     }
 
@@ -55,7 +98,7 @@ Business::CPI::Gateway::Test - Fake gateway
 
 =head1 VERSION
 
-version 0.2
+version 0.3
 
 =head1 DESCRIPTION
 
@@ -67,7 +110,7 @@ André Walker <andre@andrewalker.net>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 by André Walker.
+This software is copyright (c) 2013 by André Walker.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

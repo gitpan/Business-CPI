@@ -3,12 +3,31 @@ package Business::CPI::Cart;
 
 use Moo;
 use Business::CPI::Item;
+use Business::CPI::Types qw/stringified_money/;
 
-our $VERSION = '0.2'; # VERSION
+our $VERSION = '0.3'; # VERSION
 
 has buyer => (
     is => 'ro',
     isa => sub { $_[0]->isa('Business::CPI::Buyer') or die "Must be a Business::CPI::Buyer" },
+);
+
+has tax => (
+    coerce => \&stringified_money,
+    required => 0,
+    is => 'ro',
+);
+
+has handling => (
+    coerce => \&stringified_money,
+    required => 0,
+    is => 'ro',
+);
+
+has discount => (
+    coerce => \&stringified_money,
+    required => 0,
+    is => 'ro',
 );
 
 has _gateway => (
@@ -52,6 +71,7 @@ sub get_form_to_pay {
         payment_id => $payment,
         items      => [ @{ $self->_items } ], # make a copy for security
         buyer      => $self->buyer,
+        cart       => $self,
     });
 }
 
@@ -69,7 +89,7 @@ Business::CPI::Cart - Shopping cart
 
 =head1 VERSION
 
-version 0.2
+version 0.3
 
 =head1 DESCRIPTION
 
@@ -81,6 +101,18 @@ directly, use L<Business::CPI::Gateway::Base/new_cart> to build it.
 =head2 buyer
 
 The person paying for the shopping cart. See L<Business::CPI::Buyer>.
+
+=head2 discount
+
+Discount to be applied to the total amount. Positive number.
+
+=head2 tax
+
+Tax to be applied to the total amount. Positive number.
+
+=head2 handling
+
+Handling to be applied to the total amount. Positive number.
 
 =head1 METHODS
 
@@ -104,7 +136,7 @@ André Walker <andre@andrewalker.net>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 by André Walker.
+This software is copyright (c) 2013 by André Walker.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

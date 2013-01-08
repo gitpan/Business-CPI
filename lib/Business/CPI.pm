@@ -5,7 +5,7 @@ use warnings;
 use strict;
 use Class::Load;
 
-our $VERSION = '0.2'; # VERSION
+our $VERSION = '0.3'; # VERSION
 
 sub new {
     my $class = shift;
@@ -34,7 +34,7 @@ Business::CPI - Common Payment Interface
 
 =head1 VERSION
 
-version 0.2
+version 0.3
 
 =head1 SYNOPSIS
 
@@ -98,7 +98,7 @@ André Walker <andre@andrewalker.net>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 by André Walker.
+This software is copyright (c) 2013 by André Walker.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

@@ -24,10 +24,11 @@ my %WriteMakefileArgs = (
     "Email::Valid" => 0,
     "HTML::Element" => 0,
     "List::Util" => 0,
+    "Locale::Country" => 0,
     "Locale::Currency" => 0,
     "Moo" => 0
   },
-  "VERSION" => "0.2",
+  "VERSION" => "0.3",
   "test" => {
     "TESTS" => "t/*.t"
   }

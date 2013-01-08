@@ -9,7 +9,7 @@ use Business::CPI::Cart;
 use Business::CPI::Buyer;
 use HTML::Element;
 
-our $VERSION = '0.2'; # VERSION
+our $VERSION = '0.3'; # VERSION
 
 has name => (
     is      => 'ro',
@@ -80,6 +80,7 @@ sub new_cart {
         _gateway => $self,
         _items   => \@items,
         buyer    => $buyer,
+        %$info,
     );
 }
 
@@ -144,7 +145,7 @@ Business::CPI::Gateway::Base - Father of all gateways
 
 =head1 VERSION
 
-version 0.2
+version 0.3
 
 =head1 ATTRIBUTES
 
@@ -225,7 +226,7 @@ André Walker <andre@andrewalker.net>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 by André Walker.
+This software is copyright (c) 2013 by André Walker.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
