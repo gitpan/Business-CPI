@@ -1,7 +1,10 @@
 package Business::CPI::Types;
+# ABSTRACT: Coersion and checks
 use warnings;
 use strict;
 use Exporter 'import';
+
+our $VERSION = '0.4'; # VERSION
 
 our @EXPORT_OK = qw/stringified_money/;
 
@@ -17,11 +20,11 @@ __END__
 
 =head1 NAME
 
-Business::CPI::Types
+Business::CPI::Types - Coersion and checks
 
 =head1 VERSION
 
-version 0.3
+version 0.4
 
 =head1 DESCRIPTION
 

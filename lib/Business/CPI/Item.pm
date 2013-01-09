@@ -3,7 +3,7 @@ package Business::CPI::Item;
 use Moo;
 use Business::CPI::Types qw/stringified_money/;
 
-our $VERSION = '0.3'; # VERSION
+our $VERSION = '0.4'; # VERSION
 
 has id => (
     coerce => sub { '' . $_[0] },
@@ -57,7 +57,7 @@ Business::CPI::Item - Product in the cart
 
 =head1 VERSION
 
-version 0.3
+version 0.4
 
 =head1 DESCRIPTION
 

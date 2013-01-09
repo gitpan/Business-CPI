@@ -20,6 +20,7 @@ requires:
   Locale::Country: 0
   Locale::Currency: 0
   Moo: 0
+  perl: 5.008
 resources:
   repository: git://github.com/andrewalker/p5-business-cpi.git
-version: 0.3
+version: 0.4

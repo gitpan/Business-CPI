@@ -1,9 +1,10 @@
 package Business::CPI::Buyer;
+# ABSTRACT: Information about the client
 use Moo;
 use Locale::Country ();
 use Email::Valid ();
 
-our $VERSION = '0.3'; # VERSION
+our $VERSION = '0.4'; # VERSION
 
 has email => (
     isa => sub {
@@ -88,11 +89,11 @@ __END__
 
 =head1 NAME
 
-Business::CPI::Buyer
+Business::CPI::Buyer - Information about the client
 
 =head1 VERSION
 
-version 0.3
+version 0.4
 
 =head1 DESCRIPTION
 

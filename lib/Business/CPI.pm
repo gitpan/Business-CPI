@@ -5,7 +5,7 @@ use warnings;
 use strict;
 use Class::Load;
 
-our $VERSION = '0.3'; # VERSION
+our $VERSION = '0.4'; # VERSION
 
 sub new {
     my $class = shift;
@@ -34,7 +34,7 @@ Business::CPI - Common Payment Interface
 
 =head1 VERSION
 
-version 0.3
+version 0.4
 
 =head1 SYNOPSIS
 
@@ -85,7 +85,7 @@ Example:
 
 =head1 SPONSORED BY
 
-Aware - http://www.aware.com.br
+L<< Aware | http://www.aware.com.br >>
 
 =head1 CAVEATS
 
