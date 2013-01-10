@@ -1,43 +1,41 @@
 package Business::CPI::Gateway::Base;
 # ABSTRACT: Father of all gateways
 use Moo;
-use Carp;
 use Locale::Currency ();
 use Email::Valid ();
-use List::Util ();
 use Business::CPI::Cart;
 use Business::CPI::Buyer;
+use Business::CPI::EmptyLogger;
 use HTML::Element;
+use Data::Dumper;
 
-our $VERSION = '0.4'; # VERSION
-
-has name => (
-    is      => 'ro',
-#    isa     => 'Str',
-    default => sub {
-        my $self  = shift;
-        my $class = ref $self;
-        my @parts = split '::', $class;
-        return lc( pop @parts );
-    },
-);
+our $VERSION = '0.5'; # VERSION
 
 has receiver_email => (
     isa => sub {
-        Email::Valid->address( $_[0] ) || die "Must be a valid e-mail address";
+        die "Must be a valid e-mail address"
+            unless Email::Valid->address( $_[0] );
     },
     is => 'ro',
 );
 
 has currency => (
     isa => sub {
-        my $curr = uc( $_[0] );
-        my @codes = Locale::Currency::all_currency_codes();
-        List::Util::first { $curr eq uc($_) } @codes
-          || die "Must be a valid currency code";
+        my $curr = uc($_[0]);
+
+        for (Locale::Currency::all_currency_codes()) {
+            return 1 if $curr eq uc($_);
+        }
+
+        die "Must be a valid currency code";
     },
     coerce => sub { uc $_[0] },
     is => 'ro',
+);
+
+has log => (
+    is => 'ro',
+    default => sub { Business::CPI::EmptyLogger->new },
 );
 
 has checkout_url => (
@@ -70,11 +68,17 @@ has form_encoding => (
 sub new_cart {
     my ( $self, $info ) = @_;
 
+    if ($self->log->is_debug) {
+        $self->log->debug("Building a cart with: " . Dumper($info));
+    }
+
     my @items =
       map { ref $_ eq 'Business::CPI::Item' ? $_ : Business::CPI::Item->new($_) }
       @{ delete $info->{items} || [] };
 
     my $buyer = Business::CPI::Buyer->new( delete $info->{buyer} );
+
+    $self->log->info("Built cart for buyer " . $buyer->email);
 
     return Business::CPI::Cart->new(
         _gateway => $self,
@@ -89,7 +93,15 @@ sub get_hidden_inputs { () }
 sub get_form {
     my ($self, $info) = @_;
 
+    $self->log->info("Get form for payment " . $info->{payment_id});
+
     my @hidden_inputs = $self->get_hidden_inputs($info);
+
+    if ($self->log->is_debug) {
+        $self->log->debug("Building form with inputs: " . Dumper(\@hidden_inputs));
+        $self->log->debug("form action => " . $self->checkout_url);
+        $self->log->debug("form method => " . $self->checkout_form_http_method);
+    }
 
     my $form = HTML::Element->new(
         'form',
@@ -145,13 +157,9 @@ Business::CPI::Gateway::Base - Father of all gateways
 
 =head1 VERSION
 
-version 0.4
+version 0.5
 
 =head1 ATTRIBUTES
-
-=head2 name
-
-Name of the gateway (e.g. paypal).
 
 =head2 receiver_email
 
@@ -160,6 +168,11 @@ E-mail of the business owner.
 =head2 currency
 
 Currency code, such as BRL, EUR, USD, etc.
+
+=head2 log
+
+Provide a logger to the gateway. It's the user's responsibility to configure
+the logger. By default, nothing is logged.
 
 =head2 notification_url
 

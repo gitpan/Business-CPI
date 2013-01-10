@@ -6,6 +6,7 @@ README
 lib/Business/CPI.pm
 lib/Business/CPI/Buyer.pm
 lib/Business/CPI/Cart.pm
+lib/Business/CPI/EmptyLogger.pm
 lib/Business/CPI/Gateway/Base.pm
 lib/Business/CPI/Gateway/Test.pm
 lib/Business/CPI/Item.pm
@@ -14,5 +15,6 @@ t/01app.t
 t/02gateway.t
 t/03buyer.t
 t/04extra_charges.t
+t/05logger.t
 t/release-pod-coverage.t
 t/release-pod-syntax.t

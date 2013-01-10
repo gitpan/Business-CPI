@@ -16,11 +16,10 @@ requires:
   Class::Load: 0
   Email::Valid: 0
   HTML::Element: 0
-  List::Util: 0
   Locale::Country: 0
   Locale::Currency: 0
   Moo: 0
   perl: 5.008
 resources:
   repository: git://github.com/andrewalker/p5-business-cpi.git
-version: 0.4
+version: 0.5

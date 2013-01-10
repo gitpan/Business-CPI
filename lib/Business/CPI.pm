@@ -3,9 +3,9 @@ package Business::CPI;
 
 use warnings;
 use strict;
-use Class::Load;
+use Class::Load ();
 
-our $VERSION = '0.4'; # VERSION
+our $VERSION = '0.5'; # VERSION
 
 sub new {
     my $class = shift;
@@ -34,7 +34,7 @@ Business::CPI - Common Payment Interface
 
 =head1 VERSION
 
-version 0.4
+version 0.5
 
 =head1 SYNOPSIS
 
@@ -85,7 +85,7 @@ Example:
 
 =head1 SPONSORED BY
 
-L<< Aware | http://www.aware.com.br >>
+Aware - L<http://www.aware.com.br>
 
 =head1 CAVEATS
 

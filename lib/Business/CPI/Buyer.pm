@@ -4,11 +4,12 @@ use Moo;
 use Locale::Country ();
 use Email::Valid ();
 
-our $VERSION = '0.4'; # VERSION
+our $VERSION = '0.5'; # VERSION
 
 has email => (
     isa => sub {
-        Email::Valid->address( $_[0] ) || die "Must be a valid e-mail address";
+        die "Must be a valid e-mail address"
+            unless Email::Valid->address( $_[0] );
     },
     is => 'ro',
 );
@@ -33,16 +34,13 @@ has address_country    => (
     required => 0,
     isa => sub {
         for (Locale::Country::all_country_codes()) {
-            return 1 if ($_ eq $_[0]);
-        }
-        for (Locale::Country::all_country_names()) {
-            return 1 if ($_ eq $_[0]);
+            return 1 if $_ eq $_[0];
         }
     },
     coerce => sub {
         my $country = lc $_[0];
         for (Locale::Country::all_country_codes()) {
-            return $_ if ($_ eq $country);
+            return $_ if $_ eq $country;
         }
         return Locale::Country::country2code($country);
     },
@@ -93,7 +91,7 @@ Business::CPI::Buyer - Information about the client
 
 =head1 VERSION
 
-version 0.4
+version 0.5
 
 =head1 DESCRIPTION
 
