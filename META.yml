@@ -22,4 +22,4 @@ requires:
   perl: 5.008
 resources:
   repository: git://github.com/andrewalker/p5-business-cpi.git
-version: 0.5
+version: 0.901

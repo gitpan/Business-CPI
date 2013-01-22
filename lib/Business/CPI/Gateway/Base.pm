@@ -4,12 +4,12 @@ use Moo;
 use Locale::Currency ();
 use Email::Valid ();
 use Business::CPI::Cart;
-use Business::CPI::Buyer;
 use Business::CPI::EmptyLogger;
+use Class::Load qw/load_first_existing_class/;
 use HTML::Element;
 use Data::Dumper;
 
-our $VERSION = '0.5'; # VERSION
+our $VERSION = '0.901'; # VERSION
 
 has receiver_email => (
     isa => sub {
@@ -76,7 +76,13 @@ sub new_cart {
       map { ref $_ eq 'Business::CPI::Item' ? $_ : Business::CPI::Item->new($_) }
       @{ delete $info->{items} || [] };
 
-    my $buyer = Business::CPI::Buyer->new( delete $info->{buyer} );
+    my $gateway_name = (split /::/, ref $self)[-1];
+    my $buyer_class  = Class::Load::load_first_existing_class(
+        "Business::CPI::Buyer::$gateway_name",
+        "Business::CPI::Buyer"
+    );
+
+    my $buyer = $buyer_class->new( delete $info->{buyer} );
 
     $self->log->info("Built cart for buyer " . $buyer->email);
 
@@ -143,6 +149,8 @@ sub query_transactions {}
 
 sub get_transaction_details {}
 
+sub notify {}
+
 1;
 
 __END__
@@ -157,7 +165,7 @@ Business::CPI::Gateway::Base - Father of all gateways
 
 =head1 VERSION
 
-version 0.5
+version 0.901
 
 =head1 ATTRIBUTES
 
@@ -232,6 +240,13 @@ This method is called when building the checkout form. It will return a hashref
 with the field names and field values for the form. This way the gateway will
 implement only this method, while the rest of the form will be built by this
 class.
+
+=head2 notify
+
+This is supposed to be called when the gateway sends a notification about a
+payment status change to the application. Receives the request as a parameter
+(in a CGI-compatible format), and returns data about the payment. The format is
+still under discussion, and is soon to be documented.
 
 =head1 AUTHOR
 

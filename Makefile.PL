@@ -27,7 +27,7 @@ my %WriteMakefileArgs = (
     "Locale::Currency" => 0,
     "Moo" => 0
   },
-  "VERSION" => "0.5",
+  "VERSION" => "0.901",
   "test" => {
     "TESTS" => "t/*.t"
   }
