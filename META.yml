@@ -13,13 +13,13 @@ meta-spec:
   version: 1.4
 name: Business-CPI
 requires:
-  Class::Load: 0
+  Class::Load: 0.20
   Email::Valid: 0
   HTML::Element: 0
   Locale::Country: 0
   Locale::Currency: 0
-  Moo: 0
+  Moo: 1.0
   perl: 5.008
 resources:
   repository: git://github.com/andrewalker/p5-business-cpi.git
-version: 0.901
+version: 0.902

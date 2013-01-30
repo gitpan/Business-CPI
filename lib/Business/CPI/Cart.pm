@@ -5,7 +5,7 @@ use Moo;
 use Business::CPI::Item;
 use Business::CPI::Types qw/stringified_money/;
 
-our $VERSION = '0.901'; # VERSION
+our $VERSION = '0.902'; # VERSION
 
 has buyer => (
     is => 'ro',
@@ -89,7 +89,7 @@ Business::CPI::Cart - Shopping cart
 
 =head1 VERSION
 
-version 0.901
+version 0.902
 
 =head1 DESCRIPTION
 

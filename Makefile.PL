@@ -20,14 +20,14 @@ my %WriteMakefileArgs = (
   "LICENSE" => "perl",
   "NAME" => "Business::CPI",
   "PREREQ_PM" => {
-    "Class::Load" => 0,
+    "Class::Load" => "0.20",
     "Email::Valid" => 0,
     "HTML::Element" => 0,
     "Locale::Country" => 0,
     "Locale::Currency" => 0,
-    "Moo" => 0
+    "Moo" => "1.0"
   },
-  "VERSION" => "0.901",
+  "VERSION" => "0.902",
   "test" => {
     "TESTS" => "t/*.t"
   }

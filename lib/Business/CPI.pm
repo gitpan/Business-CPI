@@ -5,7 +5,7 @@ use warnings;
 use strict;
 use Class::Load ();
 
-our $VERSION = '0.901'; # VERSION
+our $VERSION = '0.902'; # VERSION
 
 sub new {
     my $class = shift;
@@ -34,7 +34,7 @@ Business::CPI - Common Payment Interface
 
 =head1 VERSION
 
-version 0.901
+version 0.902
 
 =head1 SYNOPSIS
 

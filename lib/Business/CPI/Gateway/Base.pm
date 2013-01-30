@@ -3,13 +3,12 @@ package Business::CPI::Gateway::Base;
 use Moo;
 use Locale::Currency ();
 use Email::Valid ();
-use Business::CPI::Cart;
 use Business::CPI::EmptyLogger;
 use Class::Load qw/load_first_existing_class/;
 use HTML::Element;
 use Data::Dumper;
 
-our $VERSION = '0.901'; # VERSION
+our $VERSION = '0.902'; # VERSION
 
 has receiver_email => (
     isa => sub {
@@ -81,12 +80,20 @@ sub new_cart {
         "Business::CPI::Buyer::$gateway_name",
         "Business::CPI::Buyer"
     );
+    my $cart_class  = Class::Load::load_first_existing_class(
+        "Business::CPI::Cart::$gateway_name",
+        "Business::CPI::Cart"
+    );
+
+    $self->log->debug(
+        "Loaded buyer class $buyer_class and cart class $cart_class."
+    );
 
     my $buyer = $buyer_class->new( delete $info->{buyer} );
 
     $self->log->info("Built cart for buyer " . $buyer->email);
 
-    return Business::CPI::Cart->new(
+    return $cart_class->new(
         _gateway => $self,
         _items   => \@items,
         buyer    => $buyer,
@@ -165,7 +172,7 @@ Business::CPI::Gateway::Base - Father of all gateways
 
 =head1 VERSION
 
-version 0.901
+version 0.902
 
 =head1 ATTRIBUTES
 
