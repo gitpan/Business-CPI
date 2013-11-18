@@ -3,16 +3,18 @@ package Business::CPI::Item;
 use Moo;
 use Business::CPI::Types qw/stringified_money/;
 
-our $VERSION = '0.903'; # VERSION
+our $VERSION = '0.904'; # VERSION
 
 has id => (
     coerce => sub { '' . $_[0] },
     is => 'ro',
+    required => 1,
 );
 
 has price => (
     coerce => \&stringified_money,
     is => 'ro',
+    required => 1,
 );
 
 has weight => (
@@ -36,11 +38,13 @@ has shipping_additional => (
 has description => (
     coerce => sub { '' . $_[0] },
     is => 'ro',
+    required => 1,
 );
 
 has quantity => (
     coerce => sub { int $_[0] },
     is => 'ro',
+    required => 1,
 );
 
 1;
@@ -57,7 +61,7 @@ Business::CPI::Item - Product in the cart
 
 =head1 VERSION
 
-version 0.903
+version 0.904
 
 =head1 DESCRIPTION
 
@@ -67,11 +71,11 @@ This class holds information about the products in a shopping cart.
 
 =head2 id
 
-Unique identifier for this product in your application.
+B<MANDATORY> - Unique identifier for this product in your application.
 
 =head2 price
 
-The price (in the chosen currency; see
+B<MANDATORY> - The price (in the chosen currency; see
 L<Business::CPI::Gateway::Base/currency>) of one item. This will be multiplied
 by the quantity.
 
@@ -95,11 +99,11 @@ ignored by the gateway.
 
 =head2 description
 
-The description or name of the product.
+B<MANDATORY> - The description or name of the product.
 
 =head2 quantity
 
-How many of this product is being bought?
+B<MANDATORY> - How many of this product is being bought?
 
 =head1 AUTHOR
 

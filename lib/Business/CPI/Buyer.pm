@@ -4,7 +4,7 @@ use Moo;
 use Locale::Country ();
 use Email::Valid ();
 
-our $VERSION = '0.903'; # VERSION
+our $VERSION = '0.904'; # VERSION
 
 has email => (
     isa => sub {
@@ -91,7 +91,7 @@ Business::CPI::Buyer - Information about the client
 
 =head1 VERSION
 
-version 0.903
+version 0.904
 
 =head1 DESCRIPTION
 
@@ -152,6 +152,14 @@ State.
 Locale::Country code for the country. You can set using the ISO 3166-1
 two-letter code, or the full name in English. It will coerce it and store the
 ISO 3166-1 two-letter code.
+
+=head1 NOTE
+
+This class will soon be ported to use L<Business::CPI::Account>, either
+becoming a role, or extending it via inheritance. So beware of
+backcompatibility issues. In particular, all attributes prefixed with
+C<address_*> will lose the prefix and be set using the
+L<Business::CPI::Account::Address> class.
 
 =head1 AUTHOR
 

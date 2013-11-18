@@ -5,6 +5,9 @@ META.yml
 Makefile.PL
 README
 lib/Business/CPI.pm
+lib/Business/CPI/Account.pm
+lib/Business/CPI/Account/Address.pm
+lib/Business/CPI/Account/Business.pm
 lib/Business/CPI/Buyer.pm
 lib/Business/CPI/Cart.pm
 lib/Business/CPI/EmptyLogger.pm
@@ -14,8 +17,11 @@ lib/Business/CPI/Item.pm
 lib/Business/CPI/Types.pm
 t/01app.t
 t/02gateway.t
+t/03account.t
+t/03account_address.t
+t/03account_business.t
 t/03buyer.t
 t/04extra_charges.t
 t/05logger.t
-t/release-pod-coverage.t
-t/release-pod-syntax.t
+xt/release/pod-coverage.t
+xt/release/pod-syntax.t

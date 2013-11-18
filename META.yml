@@ -2,24 +2,62 @@
 abstract: 'Common Payment Interface'
 author:
   - 'André Walker <andre@andrewalker.net>'
-build_requires: {}
+build_requires:
+  Test::Exception: 0.32
 configure_requires:
   ExtUtils::MakeMaker: 6.30
 dynamic_config: 0
-generated_by: 'Dist::Zilla version 4.300028, CPAN::Meta::Converter version 2.120921'
+generated_by: 'Dist::Zilla version 4.300039, CPAN::Meta::Converter version 2.132510'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: 1.4
 name: Business-CPI
+provides:
+  Business::CPI:
+    file: lib/Business/CPI.pm
+    version: 0.904
+  Business::CPI::Account:
+    file: lib/Business/CPI/Account.pm
+    version: 0.904
+  Business::CPI::Account::Address:
+    file: lib/Business/CPI/Account/Address.pm
+    version: 0.904
+  Business::CPI::Account::Business:
+    file: lib/Business/CPI/Account/Business.pm
+    version: 0.904
+  Business::CPI::Buyer:
+    file: lib/Business/CPI/Buyer.pm
+    version: 0.904
+  Business::CPI::Cart:
+    file: lib/Business/CPI/Cart.pm
+    version: 0.904
+  Business::CPI::EmptyLogger:
+    file: lib/Business/CPI/EmptyLogger.pm
+    version: 0.904
+  Business::CPI::Gateway::Base:
+    file: lib/Business/CPI/Gateway/Base.pm
+    version: 0.904
+  Business::CPI::Gateway::Test:
+    file: lib/Business/CPI/Gateway/Test.pm
+    version: 0.904
+  Business::CPI::Item:
+    file: lib/Business/CPI/Item.pm
+    version: 0.904
+  Business::CPI::Types:
+    file: lib/Business/CPI/Types.pm
+    version: 0.904
 requires:
   Class::Load: 0.20
+  DateTime: 0
   Email::Valid: 0
   HTML::Element: 0
   Locale::Country: 0
   Locale::Currency: 0
   Moo: 1.0
+  Scalar::Util: 0
   perl: 5.008
 resources:
+  bugtracker: https://github.com/andrewalker/p5-business-cpi/issues
   repository: git://github.com/andrewalker/p5-business-cpi.git
-version: 0.903
+version: 0.904

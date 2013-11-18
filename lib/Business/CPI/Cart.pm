@@ -3,9 +3,11 @@ package Business::CPI::Cart;
 
 use Moo;
 use Business::CPI::Item;
+use Scalar::Util qw/blessed/;
 use Business::CPI::Types qw/stringified_money/;
+use Class::Load qw/load_first_existing_class/;
 
-our $VERSION = '0.903'; # VERSION
+our $VERSION = '0.904'; # VERSION
 
 has buyer => (
     is => 'ro',
@@ -31,8 +33,11 @@ has discount => (
 );
 
 has _gateway => (
-    is => 'ro',
-    isa => sub { $_[0]->isa('Business::CPI::Gateway::Base') or die "Must be a CPI::Gateway::Base" },
+    is  => 'ro',
+    isa => sub {
+        $_[0]->isa('Business::CPI::Gateway::Base')
+          or die "Must be a Business::CPI::Gateway::Base";
+    },
 );
 
 has _items => (
@@ -57,7 +62,16 @@ sub get_item {
 sub add_item {
     my ($self, $info) = @_;
 
-    my $item = ref $info && ref $info eq 'Business::CPI::Item' ? $info : Business::CPI::Item->new($info);
+    my $gateway_name = (split /::/, ref $self->_gateway)[-1];
+    my $item_class  = Class::Load::load_first_existing_class(
+        "Business::CPI::Item::$gateway_name",
+        "Business::CPI::Item"
+    );
+
+    my $item =
+         ref $info
+      && blessed $info
+      && $info->isa('Business::CPI::Item') ? $info : $item_class->new($info);
 
     push @{ $self->_items }, $item;
 
@@ -70,6 +84,18 @@ sub get_form_to_pay {
     return $self->_gateway->get_form({
         payment_id => $payment,
         items      => [ @{ $self->_items } ], # make a copy for security
+        buyer      => $self->buyer,
+        cart       => $self,
+    });
+}
+
+
+sub get_checkout_code {
+    my ($self, $payment) = @_;
+
+    return $self->_gateway->get_checkout_code({
+        payment_id => $payment,
+        items      => [ @{ $self->_items } ],
         buyer      => $self->buyer,
         cart       => $self,
     });
@@ -89,7 +115,7 @@ Business::CPI::Cart - Shopping cart
 
 =head1 VERSION
 
-version 0.903
+version 0.904
 
 =head1 DESCRIPTION
 
@@ -129,6 +155,13 @@ Get item with the given id.
 
 Takes a payment_id as the only argument, and returns an HTML::Element form, to
 submit to the gateway.
+
+=head2 get_checkout_code
+
+Very similar to get_form_to_pay, C<< $cart->get_checkout_code >> will send to
+the gateway this cart, and return a token for it, so that the payment will be
+made referring to this token. It receives the same arguments as
+get_form_to_pay.
 
 =head1 AUTHOR
 
