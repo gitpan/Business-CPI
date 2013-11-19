@@ -7,7 +7,7 @@ use Class::Load qw/load_first_existing_class/;
 use HTML::Element;
 use Data::Dumper;
 
-our $VERSION = '0.904'; # VERSION
+our $VERSION = '0.905'; # VERSION
 
 has receiver_email => (
     is => 'ro',
@@ -68,6 +68,16 @@ has form_encoding => (
     # TODO: use Encode::find_encoding()
     default => sub { 'UTF-8' },
 );
+
+around BUILDARGS => sub {
+    my $orig  = shift;
+    my $class = shift;
+    my $args  = $class->$orig(@_);
+
+    $args->{receiver_email} = $args->{receiver_id} if $args->{receiver_id};
+
+    return $args;
+};
 
 sub new_cart {
     my ( $self, $info ) = @_;
@@ -241,7 +251,7 @@ Business::CPI::Gateway::Base - Father of all gateways
 
 =head1 VERSION
 
-version 0.904
+version 0.905
 
 =head1 ATTRIBUTES
 
@@ -306,6 +316,10 @@ image, default brower submit button).
 Defaults to UTF-8.
 
 =head1 METHODS
+
+=head2 BUILDARGS
+
+Simply makes the receiver_id alias work.
 
 =head2 new_cart
 

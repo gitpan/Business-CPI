@@ -24,14 +24,15 @@ my $class = 'Business::CPI::Account';
 
 # Test wrong instantiation
 {
+    my $gtw = Business::CPI::Gateway::Test->new;
     my $obj;
-    throws_ok { $obj = $class->new( birthday => 'bogus' ) } qr{DateTime}, 'attempting to set a string to birthday attribute';
+    throws_ok { $obj = $class->new( birthday => 'bogus', _gateway => $gtw ) } qr{DateTime}, 'attempting to set a string to birthday attribute';
     ok(!$obj, 'object is undefined');
-    throws_ok { $obj = $class->new( birthday => '01/01/2000' ) } qr{DateTime}, 'attempting to set a string that looks like date to birthday attribute';
+    throws_ok { $obj = $class->new( birthday => '01/01/2000', _gateway => $gtw ) } qr{DateTime}, 'attempting to set a string that looks like date to birthday attribute';
     ok(!$obj, 'object is undefined');
-    throws_ok { $obj = $class->new( birthday => '2000-01-01' ) } qr{DateTime}, 'attempting to set a string that looks like date to birthday attribute (again)';
+    throws_ok { $obj = $class->new( birthday => '2000-01-01', _gateway => $gtw ) } qr{DateTime}, 'attempting to set a string that looks like date to birthday attribute (again)';
     ok(!$obj, 'object is undefined');
-    throws_ok { $obj = $class->new( email => 'a@@b' ) } qr{e-mail}, 'attempting to set an invalid email';
+    throws_ok { $obj = $class->new( email => 'a@@b', _gateway => $gtw ) } qr{e-mail}, 'attempting to set an invalid email';
     ok(!$obj, 'object is undefined');
 }
 
@@ -86,6 +87,41 @@ my $class = 'Business::CPI::Account';
     for my $attr (@attrs) {
         ok($obj->can($attr), qq{object has attribute $attr});
     }
+
+    throws_ok {
+        $class->new(
+            id         => 'app0id014213',
+            first_name => 'John',
+            last_name  => 'Smith',
+            email      => 'john@smith.com',
+            birthday   => DateTime->now->subtract(years => 25),
+            phone      => '11 00001111',
+            address    => {
+                street     => 'Av. Paulista',
+                number     => '123',
+                complement => '7º andar',
+                district   => 'Bairro X',
+                city       => 'São Paulo',
+                state      => 'SP',
+                country    => 'br',
+            },
+            business => {
+                corporate_name => 'Aware Ltda.',
+                trading_name   => 'Aware',
+                phone          => '11 11110000',
+                address        => {
+                    street     => 'Alameda Santos',
+                    number     => '321',
+                    complement => '3º andar',
+                    district   => 'Bairro Y',
+                    city       => 'São Paulo',
+                    state      => 'SP',
+                    country    => 'br',
+                },
+            },
+            return_url => 'http://mrsmith.com',
+        );
+    } qr/missing.*_gateway/i, 'die unless _gateway is defined';
 }
 
 done_testing();
