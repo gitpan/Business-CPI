@@ -16,37 +16,37 @@ name: Business-CPI
 provides:
   Business::CPI:
     file: lib/Business/CPI.pm
-    version: 0.905
+    version: 0.906
   Business::CPI::Account:
     file: lib/Business/CPI/Account.pm
-    version: 0.905
+    version: 0.906
   Business::CPI::Account::Address:
     file: lib/Business/CPI/Account/Address.pm
-    version: 0.905
+    version: 0.906
   Business::CPI::Account::Business:
     file: lib/Business/CPI/Account/Business.pm
-    version: 0.905
+    version: 0.906
   Business::CPI::Buyer:
     file: lib/Business/CPI/Buyer.pm
-    version: 0.905
+    version: 0.906
   Business::CPI::Cart:
     file: lib/Business/CPI/Cart.pm
-    version: 0.905
+    version: 0.906
   Business::CPI::EmptyLogger:
     file: lib/Business/CPI/EmptyLogger.pm
-    version: 0.905
+    version: 0.906
   Business::CPI::Gateway::Base:
     file: lib/Business/CPI/Gateway/Base.pm
-    version: 0.905
+    version: 0.906
   Business::CPI::Gateway::Test:
     file: lib/Business/CPI/Gateway/Test.pm
-    version: 0.905
+    version: 0.906
   Business::CPI::Item:
     file: lib/Business/CPI/Item.pm
-    version: 0.905
+    version: 0.906
   Business::CPI::Types:
     file: lib/Business/CPI/Types.pm
-    version: 0.905
+    version: 0.906
 requires:
   Class::Load: 0.20
   DateTime: 0
@@ -60,4 +60,4 @@ requires:
 resources:
   bugtracker: https://github.com/andrewalker/p5-business-cpi/issues
   repository: git://github.com/andrewalker/p5-business-cpi.git
-version: 0.905
+version: 0.906

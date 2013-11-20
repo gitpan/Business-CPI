@@ -7,7 +7,7 @@ use Scalar::Util qw/blessed/;
 use Business::CPI::Types qw/stringified_money/;
 use Class::Load ();
 
-our $VERSION = '0.905'; # VERSION
+our $VERSION = '0.906'; # VERSION
 
 has buyer => (
     is => 'ro',
@@ -114,7 +114,7 @@ Business::CPI::Cart - Shopping cart
 
 =head1 VERSION
 
-version 0.905
+version 0.906
 
 =head1 DESCRIPTION
 

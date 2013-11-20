@@ -7,20 +7,26 @@ use Email::Valid;
 use Scalar::Util qw/blessed/;
 use Class::Load ();
 
-our $VERSION = '0.905'; # VERSION
+our $VERSION = '0.906'; # VERSION
+
+# TODO: Validate this? URI.pm seems to accept anything
+# actually... does this really belong here???
+has return_url => ( is => 'rw' );
 
 has _gateway => ( is => 'ro', required => 1 );
 
-has id => ( is => 'rw' );
+has id         => ( is => 'rw' );
+has gateway_id => ( is => 'rw' );
 
-# TODO: create "name"
+# Some gateways use the Full Name, others use the first and last separately.
+# You can set both and let the driver decide what to send.
+has full_name  => ( is => 'lazy' );
 has first_name => ( is => 'rw' );
-has last_name => ( is => 'rw' );
+has last_name  => ( is => 'rw' );
 
 has phone => ( is => 'rw' );
 
-# TODO: Validate this? URI.pm seems to accept anything
-has return_url => ( is => 'rw' );
+has login => ( is => 'rw' );
 
 has email => (
     is => 'rw',
@@ -37,6 +43,16 @@ has birthday => (
             unless blessed $_[0] && $_[0]->isa('DateTime');
     }
 );
+
+has registration_date => (
+    is => 'rw',
+    isa => sub {
+        die "Must be a DateTime object"
+            unless blessed $_[0] && $_[0]->isa('DateTime');
+    }
+);
+
+has is_business_account => ( is => 'rw', coerce => sub { $_[0] ? 1 : 0 } );
 
 has address => ( is => 'rw' );
 
@@ -82,6 +98,12 @@ around BUILDARGS => sub {
     return $args;
 };
 
+sub _build_full_name {
+    my $self = shift;
+
+    return $self->first_name . ' ' . $self->last_name;
+}
+
 sub _inflate_comp {
     my ($self, $which, $comp, $gateway) = @_;
 
@@ -124,7 +146,7 @@ Business::CPI::Account - Manage accounts in the gateway
 
 =head1 VERSION
 
-version 0.905
+version 0.906
 
 =head1 SYNOPSIS
 
@@ -197,6 +219,19 @@ created) in the database of the application using L<Business::CPI>. This is
 irrelevant for the gateway, but they store it for an easy way for the
 application to associate the gateway accounts to the application records.
 
+=head2 gateway_id
+
+The code that uniquely identifies this account in the gateway side.
+
+=head2 full_name
+
+Individual's full name. We have both full_name, and first_name and last_name
+because some gateways use the former, and some the latter. The application
+might set both the separate attributes (first and last) and the single one
+(full), and let the driver decide what to use. Or, the application might ignore
+this field, and let Business::CPI concatenate first and last names to generate
+the full_name.
+
 =head2 first_name
 
 Individual's first name.
@@ -204,6 +239,10 @@ Individual's first name.
 =head2 last_name
 
 Individual's last name.
+
+=head2 login
+
+Login of the individual in the gateway.
 
 =head2 email
 
@@ -216,6 +255,15 @@ Phone number of the individual.
 =head2 birthday
 
 The date the person was born. Must be a DateTime object.
+
+=head2 registration_date
+
+The date the account was created. Must be a DateTime object.
+
+=head2 is_business_account
+
+Boolean attribute to set whether the account represents an individual person or
+a company.
 
 =head2 address
 

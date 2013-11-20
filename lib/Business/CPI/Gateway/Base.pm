@@ -7,7 +7,7 @@ use Class::Load qw/load_first_existing_class/;
 use HTML::Element;
 use Data::Dumper;
 
-our $VERSION = '0.905'; # VERSION
+our $VERSION = '0.906'; # VERSION
 
 has receiver_email => (
     is => 'ro',
@@ -251,7 +251,7 @@ Business::CPI::Gateway::Base - Father of all gateways
 
 =head1 VERSION
 
-version 0.905
+version 0.906
 
 =head1 ATTRIBUTES
 

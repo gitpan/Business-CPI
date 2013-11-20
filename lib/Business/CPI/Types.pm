@@ -5,7 +5,7 @@ use strict;
 use Exporter 'import';
 use Scalar::Util qw/looks_like_number/;
 
-our $VERSION = '0.905'; # VERSION
+our $VERSION = '0.906'; # VERSION
 
 our @EXPORT_OK = qw/stringified_money/;
 
@@ -28,7 +28,7 @@ Business::CPI::Types - Coersion and checks
 
 =head1 VERSION
 
-version 0.905
+version 0.906
 
 =head1 DESCRIPTION
 
