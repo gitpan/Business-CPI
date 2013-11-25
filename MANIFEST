@@ -4,6 +4,7 @@ MANIFEST
 META.yml
 Makefile.PL
 README
+cpanfile
 lib/Business/CPI.pm
 lib/Business/CPI/Account.pm
 lib/Business/CPI/Account/Address.pm

@@ -4,7 +4,7 @@ use Moo;
 use utf8;
 use Class::Load ();
 
-our $VERSION = '0.906'; # VERSION
+our $VERSION = '0.907'; # VERSION
 
 has _gateway => ( is => 'ro', required => 1 );
 
@@ -67,7 +67,7 @@ Business::CPI::Account::Business - Business::CPI representation of corporations
 
 =head1 VERSION
 
-version 0.906
+version 0.907
 
 =head1 SYNOPSIS
 

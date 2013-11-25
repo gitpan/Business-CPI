@@ -26,13 +26,13 @@ my %WriteMakefileArgs = (
     "HTML::Element" => 0,
     "Locale::Country" => 0,
     "Locale::Currency" => 0,
-    "Moo" => "1.0",
+    "Moo" => 1,
     "Scalar::Util" => 0
   },
   "TEST_REQUIRES" => {
     "Test::Exception" => "0.32"
   },
-  "VERSION" => "0.906",
+  "VERSION" => "0.907",
   "test" => {
     "TESTS" => "t/*.t"
   }
