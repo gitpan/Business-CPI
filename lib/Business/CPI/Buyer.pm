@@ -4,7 +4,7 @@ use Moo;
 use Locale::Country ();
 use Email::Valid ();
 
-our $VERSION = '0.907'; # VERSION
+our $VERSION = '0.908'; # VERSION
 
 has email => (
     isa => sub {
@@ -91,7 +91,7 @@ Business::CPI::Buyer - Information about the client
 
 =head1 VERSION
 
-version 0.907
+version 0.908
 
 =head1 DESCRIPTION
 

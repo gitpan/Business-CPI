@@ -4,7 +4,7 @@ use Moo;
 use utf8;
 use Locale::Country ();
 
-our $VERSION = '0.907'; # VERSION
+our $VERSION = '0.908'; # VERSION
 
 # TODO:
 # move this to Business::CPI core
@@ -75,7 +75,7 @@ Business::CPI::Account::Address - Business::CPI class for Addresses
 
 =head1 VERSION
 
-version 0.907
+version 0.908
 
 =head1 SYNOPSIS
 

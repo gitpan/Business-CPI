@@ -2,32 +2,38 @@ package Business::CPI::Cart;
 # ABSTRACT: Shopping cart
 
 use Moo;
-use Business::CPI::Item;
 use Scalar::Util qw/blessed/;
+use Carp qw/croak/;
 use Business::CPI::Types qw/stringified_money/;
 use Class::Load ();
 
-our $VERSION = '0.907'; # VERSION
+our $VERSION = '0.908'; # VERSION
+
+has id => ( is => 'rw' );
+has gateway_id => ( is => 'rw' );
 
 has buyer => (
     is => 'ro',
-    isa => sub { $_[0]->isa('Business::CPI::Buyer') or die "Must be a Business::CPI::Buyer" },
+    isa => sub {
+        $_[0]->isa('Business::CPI::Buyer') or $_[0]->isa('Business::CPI::Account')
+          or die "Must be a Business::CPI::Buyer or Business::CPI::Account";
+    },
     required => 1,
 );
 
 has tax => (
     coerce => \&stringified_money,
-    is     => 'ro',
+    is     => 'rw',
 );
 
 has handling => (
     coerce => \&stringified_money,
-    is     => 'ro',
+    is     => 'rw',
 );
 
 has discount => (
     coerce => \&stringified_money,
-    is     => 'ro',
+    is     => 'rw',
 );
 
 has _gateway => (
@@ -45,6 +51,19 @@ has _items => (
     default => sub { [] },
 );
 
+has _item_class => (
+    is => 'lazy',
+);
+
+sub _build__item_class {
+    my $self = shift;
+    my $gateway_name = (split /::/, ref $self->_gateway)[-1];
+    return Class::Load::load_first_existing_class(
+        "Business::CPI::Item::$gateway_name",
+        "Business::CPI::Item"
+    );
+}
+
 sub get_item {
     my ($self, $item_id) = @_;
 
@@ -61,16 +80,11 @@ sub get_item {
 sub add_item {
     my ($self, $info) = @_;
 
-    my $gateway_name = (split /::/, ref $self->_gateway)[-1];
-    my $item_class  = Class::Load::load_first_existing_class(
-        "Business::CPI::Item::$gateway_name",
-        "Business::CPI::Item"
-    );
+    if (blessed $info) {
+        croak q|Usage: $cart->add_item({ ... })|;
+    }
 
-    my $item =
-         ref $info
-      && blessed $info
-      && $info->isa('Business::CPI::Item') ? $info : $item_class->new($info);
+    my $item = $self->_item_class->new($info);
 
     push @{ $self->_items }, $item;
 
@@ -114,7 +128,7 @@ Business::CPI::Cart - Shopping cart
 
 =head1 VERSION
 
-version 0.907
+version 0.908
 
 =head1 DESCRIPTION
 
@@ -122,6 +136,14 @@ Cart class for holding products to be purchased. Don't instantiate this
 directly, use L<Business::CPI::Gateway::Base/new_cart> to build it.
 
 =head1 ATTRIBUTES
+
+=head2 id
+
+The id of the cart, if your application has one set for it.
+
+=head2 gateway_id
+
+The id your gateway has set for this cart, if there is one.
 
 =head2 buyer
 

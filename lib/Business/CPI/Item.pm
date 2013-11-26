@@ -3,7 +3,7 @@ package Business::CPI::Item;
 use Moo;
 use Business::CPI::Types qw/stringified_money/;
 
-our $VERSION = '0.907'; # VERSION
+our $VERSION = '0.908'; # VERSION
 
 has id => (
     coerce => sub { '' . $_[0] },
@@ -19,32 +19,28 @@ has price => (
 
 has weight => (
     coerce => sub { 0 + $_[0] },
-    required => 0,
     is => 'ro',
 );
 
 has shipping => (
     coerce => \&stringified_money,
-    required => 0,
     is => 'ro',
 );
 
 has shipping_additional => (
     coerce => \&stringified_money,
-    required => 0,
     is => 'ro',
 );
 
 has description => (
     coerce => sub { '' . $_[0] },
     is => 'ro',
-    required => 1,
 );
 
 has quantity => (
     coerce => sub { int $_[0] },
     is => 'ro',
-    required => 1,
+    default => sub { 1 },
 );
 
 1;
@@ -61,7 +57,7 @@ Business::CPI::Item - Product in the cart
 
 =head1 VERSION
 
-version 0.907
+version 0.908
 
 =head1 DESCRIPTION
 
@@ -73,11 +69,20 @@ This class holds information about the products in a shopping cart.
 
 B<MANDATORY> - Unique identifier for this product in your application.
 
+=head2 description
+
+A longer description of the product, or just the name, if the gateway doesn't
+differentiate between name and description.
+
 =head2 price
 
 B<MANDATORY> - The price (in the chosen currency; see
 L<Business::CPI::Gateway::Base/currency>) of one item. This will be multiplied
 by the quantity.
+
+=head2 quantity
+
+How many of this product is being bought? Defaults to 1.
 
 =head2 shipping
 
@@ -96,14 +101,6 @@ shipping2.
 
 The weight of this item. If you define the L</shipping>, this will probably be
 ignored by the gateway.
-
-=head2 description
-
-B<MANDATORY> - The description or name of the product.
-
-=head2 quantity
-
-B<MANDATORY> - How many of this product is being bought?
 
 =head1 AUTHOR
 

@@ -7,7 +7,7 @@ use Class::Load qw/load_first_existing_class/;
 use HTML::Element;
 use Data::Dumper;
 
-our $VERSION = '0.907'; # VERSION
+our $VERSION = '0.908'; # VERSION
 
 has receiver_email => (
     is => 'ro',
@@ -69,6 +69,46 @@ has form_encoding => (
     default => sub { 'UTF-8' },
 );
 
+has _buyer_class => (
+    is => 'lazy',
+);
+
+has _cart_class => (
+    is => 'lazy',
+);
+
+has _account_class => (
+    is => 'lazy',
+);
+
+sub _build__buyer_class {
+    my $self = shift;
+    my $gateway_name = (split /::/, ref $self)[-1];
+    return Class::Load::load_first_existing_class(
+        "Business::CPI::Buyer::$gateway_name",
+        "Business::CPI::Buyer"
+    );
+}
+
+sub _build__cart_class {
+    my $self = shift;
+    my $gateway_name = (split /::/, ref $self)[-1];
+    return Class::Load::load_first_existing_class(
+        "Business::CPI::Cart::$gateway_name",
+        "Business::CPI::Cart"
+    );
+}
+
+sub _build__account_class {
+    my $self = shift;
+
+    my $gateway_name = (split /::/, ref $self)[-1];
+    return Class::Load::load_first_existing_class(
+        "Business::CPI::Account::$gateway_name",
+        "Business::CPI::Account"
+    );
+}
+
 around BUILDARGS => sub {
     my $orig  = shift;
     my $class = shift;
@@ -79,6 +119,15 @@ around BUILDARGS => sub {
     return $args;
 };
 
+sub new_account {
+    my ($self, $account) = @_;
+
+    return $self->_account_class->new(
+        _gateway => $self,
+        %$account
+    );
+}
+
 sub new_cart {
     my ( $self, $info ) = @_;
 
@@ -86,19 +135,10 @@ sub new_cart {
         $self->log->debug("Building a cart with: " . Dumper($info));
     }
 
-    my @items =
-      map { ref $_ eq 'Business::CPI::Item' ? $_ : Business::CPI::Item->new($_) }
-      @{ delete $info->{items} || [] };
+    my @items = @{ delete $info->{items} || [] };
 
-    my $gateway_name = (split /::/, ref $self)[-1];
-    my $buyer_class  = Class::Load::load_first_existing_class(
-        "Business::CPI::Buyer::$gateway_name",
-        "Business::CPI::Buyer"
-    );
-    my $cart_class  = Class::Load::load_first_existing_class(
-        "Business::CPI::Cart::$gateway_name",
-        "Business::CPI::Cart"
-    );
+    my $buyer_class = $self->_buyer_class;
+    my $cart_class  = $self->_cart_class;
 
     $self->log->debug(
         "Loaded buyer class $buyer_class and cart class $cart_class."
@@ -108,12 +148,17 @@ sub new_cart {
 
     $self->log->info("Built cart for buyer " . $buyer->email);
 
-    return $cart_class->new(
+    my $cart = $cart_class->new(
         _gateway => $self,
-        _items   => \@items,
         buyer    => $buyer,
         %$info,
     );
+
+    for (@items) {
+        $cart->add_item($_);
+    }
+
+    return $cart;
 }
 
 sub map_object {
@@ -251,7 +296,7 @@ Business::CPI::Gateway::Base - Father of all gateways
 
 =head1 VERSION
 
-version 0.907
+version 0.908
 
 =head1 ATTRIBUTES
 
@@ -324,6 +369,12 @@ Simply makes the receiver_id alias work.
 =head2 new_cart
 
 Creates a new L<Business::CPI::Cart> connected to this gateway.
+
+=head2 new_account
+
+Creates a new instance of an account. In general, you shouldn't need to use
+this, except for testing. Use C<create_account>, instead, if your driver
+provides it.
 
 =head2 get_form
 
