@@ -1,9 +1,9 @@
-package Business::CPI::EmptyLogger;
+package Business::CPI::Util::EmptyLogger;
 # ABSTRACT: Default null logger
 use warnings;
 use strict;
 
-our $VERSION = '0.908'; # VERSION
+our $VERSION = '0.909'; # TRIAL VERSION
 
 sub new      { bless {}, shift }
 sub is_debug {}
@@ -19,15 +19,15 @@ __END__
 
 =pod
 
-=encoding utf-8
+=encoding UTF-8
 
 =head1 NAME
 
-Business::CPI::EmptyLogger - Default null logger
+Business::CPI::Util::EmptyLogger - Default null logger
 
 =head1 VERSION
 
-version 0.908
+version 0.909
 
 =head1 DESCRIPTION
 

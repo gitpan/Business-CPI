@@ -1,10 +1,9 @@
-package Business::CPI::Account::Business;
+package Business::CPI::Role::Account::Business;
 # ABSTRACT: Business::CPI representation of corporations
-use Moo;
+use Moo::Role;
 use utf8;
-use Class::Load ();
 
-our $VERSION = '0.908'; # VERSION
+our $VERSION = '0.909'; # TRIAL VERSION
 
 has _gateway => ( is => 'ro', required => 1 );
 
@@ -44,13 +43,7 @@ sub _inflate_address {
 
     $gateway ||= $self->_gateway;
 
-    my $gateway_name = (split /::/, ref $gateway)[-1];
-    my $address_class = Class::Load::load_first_existing_class(
-        "Business::CPI::Account::Address::$gateway_name",
-        "Business::CPI::Account::Address"
-    );
-
-    return $address_class->new($addr);
+    return $gateway->account_address_class->new($addr);
 }
 
 1;
@@ -59,15 +52,15 @@ __END__
 
 =pod
 
-=encoding utf-8
+=encoding UTF-8
 
 =head1 NAME
 
-Business::CPI::Account::Business - Business::CPI representation of corporations
+Business::CPI::Role::Account::Business - Business::CPI representation of corporations
 
 =head1 VERSION
 
-version 0.908
+version 0.909
 
 =head1 SYNOPSIS
 
@@ -92,9 +85,9 @@ version 0.908
 
 =head1 DESCRIPTION
 
-This class represents information about businesses in the context of accounts
-in gateways. You shouldn't have to instantiate this yourself, but use the
-helpers provided by the gateway driver.
+This role represents information about businesses in the context of accounts in
+gateways. You shouldn't have to instantiate this yourself, but use the helpers
+provided by the gateway driver.
 
 =head1 ATTRIBUTES
 
@@ -112,16 +105,10 @@ A phone number of the company.
 
 =head2 address
 
-See L<Business::CPI::Account::Address>. You should provide a
+See L<Business::CPI::Role::Account::Address>. You should provide a
 HashRef with the attributes, according to the
-L<< Address | Business::CPI::Account::Address >>
-class, and it will be inflated for you.
-
-=head1 METHODS
-
-=head2 BUILDARGS
-
-Used to inflate C<address> key in the constructor.
+L<< Address | Business::CPI::Role::Account::Address >>
+role, and it will be inflated for you.
 
 =head1 SPONSORED BY
 
@@ -129,7 +116,8 @@ Estante Virtual - L<http://www.estantevirtual.com.br>
 
 =head1 SEE ALSO
 
-L<Business::CPI>, L<Business::CPI::Account>, L<Business::CPI::Account::Address>
+L<Business::CPI>, L<Business::CPI::Role::Account>,
+L<Business::CPI::Role::Account::Address>
 
 =head1 AUTHOR
 

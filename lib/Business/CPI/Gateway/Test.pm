@@ -3,9 +3,10 @@ package Business::CPI::Gateway::Test;
 
 use Moo;
 
-our $VERSION = '0.908'; # VERSION
+our $VERSION = '0.909'; # TRIAL VERSION
 
 extends 'Business::CPI::Gateway::Base';
+with 'Business::CPI::Role::Gateway::FormCheckout';
 
 sub get_hidden_inputs {
     my ( $self, $info ) = @_;
@@ -90,7 +91,7 @@ __END__
 
 =pod
 
-=encoding utf-8
+=encoding UTF-8
 
 =head1 NAME
 
@@ -98,11 +99,15 @@ Business::CPI::Gateway::Test - Fake gateway
 
 =head1 VERSION
 
-version 0.908
+version 0.909
 
 =head1 DESCRIPTION
 
 Used only for testing. See the t/ directory in this distribution.
+
+=head1 METHODS
+
+=head2 get_hidden_inputs
 
 =head1 AUTHOR
 

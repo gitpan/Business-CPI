@@ -1,38 +1,41 @@
-package Business::CPI::Cart;
-# ABSTRACT: Shopping cart
+package Business::CPI::Role::Cart;
+# ABSTRACT: Shopping cart or an order
 
-use Moo;
+use Moo::Role;
 use Scalar::Util qw/blessed/;
 use Carp qw/croak/;
-use Business::CPI::Types qw/stringified_money/;
-use Class::Load ();
+use Business::CPI::Util::Types qw/Money to_Money/;
 
-our $VERSION = '0.908'; # VERSION
+our $VERSION = '0.909'; # TRIAL VERSION
 
 has id => ( is => 'rw' );
 has gateway_id => ( is => 'rw' );
 
 has buyer => (
-    is => 'ro',
+    is  => 'ro',
     isa => sub {
-        $_[0]->isa('Business::CPI::Buyer') or $_[0]->isa('Business::CPI::Account')
-          or die "Must be a Business::CPI::Buyer or Business::CPI::Account";
+        $_[0]->does('Business::CPI::Role::Buyer')
+          or $_[0]->does('Business::CPI::Role::Account')
+          or die "Must implement Business::CPI::Role::Buyer or Business::CPI::Role::Account";
     },
     required => 1,
 );
 
 has tax => (
-    coerce => \&stringified_money,
+    coerce => \&to_Money,
+    isa    => Money,
     is     => 'rw',
 );
 
 has handling => (
-    coerce => \&stringified_money,
+    coerce => \&to_Money,
+    isa    => Money,
     is     => 'rw',
 );
 
 has discount => (
-    coerce => \&stringified_money,
+    coerce => \&to_Money,
+    isa    => Money,
     is     => 'rw',
 );
 
@@ -50,19 +53,6 @@ has _items => (
     #isa => 'ArrayRef[Business::CPI::Item]',
     default => sub { [] },
 );
-
-has _item_class => (
-    is => 'lazy',
-);
-
-sub _build__item_class {
-    my $self = shift;
-    my $gateway_name = (split /::/, ref $self->_gateway)[-1];
-    return Class::Load::load_first_existing_class(
-        "Business::CPI::Item::$gateway_name",
-        "Business::CPI::Item"
-    );
-}
 
 sub get_item {
     my ($self, $item_id) = @_;
@@ -84,7 +74,7 @@ sub add_item {
         croak q|Usage: $cart->add_item({ ... })|;
     }
 
-    my $item = $self->_item_class->new($info);
+    my $item = $self->_gateway->item_class->new($info);
 
     push @{ $self->_items }, $item;
 
@@ -120,15 +110,15 @@ __END__
 
 =pod
 
-=encoding utf-8
+=encoding UTF-8
 
 =head1 NAME
 
-Business::CPI::Cart - Shopping cart
+Business::CPI::Role::Cart - Shopping cart or an order
 
 =head1 VERSION
 
-version 0.908
+version 0.909
 
 =head1 DESCRIPTION
 
@@ -147,7 +137,8 @@ The id your gateway has set for this cart, if there is one.
 
 =head2 buyer
 
-The person paying for the shopping cart. See L<Business::CPI::Buyer>.
+The person paying for the shopping cart. See L<Business::CPI::Role::Buyer> or
+L<Business::CPI::Role::Account>.
 
 =head2 discount
 
@@ -165,8 +156,8 @@ Handling to be applied to the total amount. Positive number.
 
 =head2 add_item
 
-Create a new Business::CPI::Item object with the given hashref, and add it to
-cart.
+Create a new L<< Item | Business::CPI::Role::Item >> object with the given
+hashref, and add it to cart.
 
 =head2 get_item
 
@@ -174,8 +165,8 @@ Get item with the given id.
 
 =head2 get_form_to_pay
 
-Takes a payment_id as the only argument, and returns an HTML::Element form, to
-submit to the gateway.
+Takes a payment_id as the only argument, and returns an L<HTML::Element> form,
+to submit to the gateway.
 
 =head2 get_checkout_code
 

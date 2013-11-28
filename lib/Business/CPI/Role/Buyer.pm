@@ -1,16 +1,13 @@
-package Business::CPI::Buyer;
+package Business::CPI::Role::Buyer;
 # ABSTRACT: Information about the client
-use Moo;
+use Moo::Role;
 use Locale::Country ();
-use Email::Valid ();
+use Business::CPI::Util::Types qw/EmailAddress/;
 
-our $VERSION = '0.908'; # VERSION
+our $VERSION = '0.909'; # TRIAL VERSION
 
 has email => (
-    isa => sub {
-        die "Must be a valid e-mail address"
-            unless Email::Valid->address( $_[0] );
-    },
+    isa => EmailAddress,
     is => 'ro',
 );
 
@@ -75,7 +72,7 @@ sub _build_address_line2 {
 # add all the other attrs.
 #
 # try and find the common ones between PagSeguro / PayPal / etc, and keep them
-# here. Specific attrs can stay in Business::CPI::Buyer::${gateway}
+# here. Specific attrs can stay in Business::CPI::${gateway}::Buyer
 
 1;
 
@@ -83,19 +80,19 @@ __END__
 
 =pod
 
-=encoding utf-8
+=encoding UTF-8
 
 =head1 NAME
 
-Business::CPI::Buyer - Information about the client
+Business::CPI::Role::Buyer - Information about the client
 
 =head1 VERSION
 
-version 0.908
+version 0.909
 
 =head1 DESCRIPTION
 
-This class holds information about the buyer in a shopping cart. The address
+This role holds information about the buyer in a shopping cart. The address
 attributes are available so that if shipping is required, the buyer's address
 will be passed to the gateway (if the attributes were set).
 
@@ -149,17 +146,16 @@ State.
 
 =head2 address_country
 
-Locale::Country code for the country. You can set using the ISO 3166-1
+L<Locale::Country> code for the country. You can set using the ISO 3166-1
 two-letter code, or the full name in English. It will coerce it and store the
 ISO 3166-1 two-letter code.
 
 =head1 NOTE
 
-This class will soon be ported to use L<Business::CPI::Account>, either
-becoming a role, or extending it via inheritance. So beware of
-backcompatibility issues. In particular, all attributes prefixed with
-C<address_*> will lose the prefix and be set using the
-L<Business::CPI::Account::Address> class.
+This role will soon be ported to use L<Business::CPI::Role::Account>, or
+deprecated. So beware of backcompatibility issues. In particular, all
+attributes prefixed with C<address_*> will lose the prefix and be set using
+L<Business::CPI::Role::Account::Address>.
 
 =head1 AUTHOR
 

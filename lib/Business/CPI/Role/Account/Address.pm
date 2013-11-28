@@ -1,10 +1,10 @@
-package Business::CPI::Account::Address;
-# ABSTRACT: Business::CPI class for Addresses
-use Moo;
+package Business::CPI::Role::Account::Address;
+# ABSTRACT: Business::CPI role for Addresses
+use Moo::Role;
 use utf8;
-use Locale::Country ();
+use Business::CPI::Util::Types qw/Country to_Country/;
 
-our $VERSION = '0.908'; # VERSION
+our $VERSION = '0.909'; # TRIAL VERSION
 
 # TODO:
 # move this to Business::CPI core
@@ -20,22 +20,9 @@ has zip_code   => ( is => 'rw' );
 has city       => ( is => 'rw' );
 has state      => ( is => 'rw' ); # TODO: compare against Brazilian UF's, if country eq br
 has country => (
-    is => 'rw',
-    isa => sub {
-        # TODO: optimize
-        for (Locale::Country::all_country_codes()) {
-            return 1 if $_ eq $_[0];
-        }
-        die 'Must provide a valid country code';
-    },
-    coerce => sub {
-        my $country = lc $_[0];
-        # TODO: optimize
-        for (Locale::Country::all_country_codes()) {
-            return $_ if $_ eq $country;
-        }
-        return Locale::Country::country2code($country);
-    },
+    is     => 'rw',
+    isa    => Country,
+    coerce => \&to_Country,
 );
 
 sub _build_line1 {
@@ -67,15 +54,15 @@ __END__
 
 =pod
 
-=encoding utf-8
+=encoding UTF-8
 
 =head1 NAME
 
-Business::CPI::Account::Address - Business::CPI class for Addresses
+Business::CPI::Role::Account::Address - Business::CPI role for Addresses
 
 =head1 VERSION
 
-version 0.908
+version 0.909
 
 =head1 SYNOPSIS
 
@@ -95,7 +82,7 @@ version 0.908
 
 =head1 DESCRIPTION
 
-This class represents addresses in the context of accounts in gateways, both of
+This role represents addresses in the context of accounts in gateways, both of
 individuals and companies.
 
 =head1 ATTRIBUTES
@@ -151,7 +138,8 @@ Estante Virtual - L<http://www.estantevirtual.com.br>
 
 =head1 SEE ALSO
 
-L<Business::CPI>, L<Business::CPI::Account>, L<Business::CPI::Account::Business>
+L<Business::CPI>, L<Business::CPI::Role::Account>,
+L<Business::CPI::Role::Account::Business>
 
 =head1 AUTHOR
 

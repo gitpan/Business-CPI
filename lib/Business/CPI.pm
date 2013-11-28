@@ -5,7 +5,7 @@ use warnings;
 use strict;
 use Class::Load ();
 
-our $VERSION = '0.908'; # VERSION
+our $VERSION = '0.909'; # TRIAL VERSION
 
 sub new {
     my $class = shift;
@@ -26,7 +26,7 @@ __END__
 
 =pod
 
-=encoding utf-8
+=encoding UTF-8
 
 =head1 NAME
 
@@ -34,7 +34,7 @@ Business::CPI - Common Payment Interface
 
 =head1 VERSION
 
-version 0.908
+version 0.909
 
 =head1 SYNOPSIS
 

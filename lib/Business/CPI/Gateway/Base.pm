@@ -2,18 +2,26 @@ package Business::CPI::Gateway::Base;
 # ABSTRACT: Father of all gateways
 use Moo;
 use Locale::Currency ();
-use Business::CPI::EmptyLogger;
-use Class::Load qw/load_first_existing_class/;
-use HTML::Element;
 use Data::Dumper;
 
-our $VERSION = '0.908'; # VERSION
+with 'Business::CPI::Role::Gateway::Base';
+
+our $VERSION = '0.909'; # TRIAL VERSION
 
 has receiver_email => (
     is => 'ro',
 );
 
 sub receiver_id { goto \&receiver_email }
+
+has checkout_url => (
+    is => 'rw',
+);
+
+has checkout_with_token => (
+    is => 'ro',
+    default => sub { 0 },
+);
 
 has currency => (
     isa => sub {
@@ -29,86 +37,6 @@ has currency => (
     is => 'ro',
 );
 
-has log => (
-    is => 'ro',
-    default => sub { Business::CPI::EmptyLogger->new },
-);
-
-has checkout_with_token => (
-    is => 'ro',
-    default => sub { 0 },
-);
-
-has checkout_url => (
-    is => 'rw',
-);
-
-has checkout_form_http_method => (
-    is => 'ro',
-    default => sub { 'post' },
-);
-
-has checkout_form_submit_name => (
-    is => 'ro',
-    default => sub { 'submit' },
-);
-
-has checkout_form_submit_value => (
-    is => 'ro',
-    default => sub { '' },
-);
-
-has checkout_form_submit_image => (
-    is => 'ro',
-    default => sub { '' },
-);
-
-has form_encoding => (
-    is      => 'ro',
-    # TODO: use Encode::find_encoding()
-    default => sub { 'UTF-8' },
-);
-
-has _buyer_class => (
-    is => 'lazy',
-);
-
-has _cart_class => (
-    is => 'lazy',
-);
-
-has _account_class => (
-    is => 'lazy',
-);
-
-sub _build__buyer_class {
-    my $self = shift;
-    my $gateway_name = (split /::/, ref $self)[-1];
-    return Class::Load::load_first_existing_class(
-        "Business::CPI::Buyer::$gateway_name",
-        "Business::CPI::Buyer"
-    );
-}
-
-sub _build__cart_class {
-    my $self = shift;
-    my $gateway_name = (split /::/, ref $self)[-1];
-    return Class::Load::load_first_existing_class(
-        "Business::CPI::Cart::$gateway_name",
-        "Business::CPI::Cart"
-    );
-}
-
-sub _build__account_class {
-    my $self = shift;
-
-    my $gateway_name = (split /::/, ref $self)[-1];
-    return Class::Load::load_first_existing_class(
-        "Business::CPI::Account::$gateway_name",
-        "Business::CPI::Account"
-    );
-}
-
 around BUILDARGS => sub {
     my $orig  = shift;
     my $class = shift;
@@ -122,7 +50,7 @@ around BUILDARGS => sub {
 sub new_account {
     my ($self, $account) = @_;
 
-    return $self->_account_class->new(
+    return $self->account_class->new(
         _gateway => $self,
         %$account
     );
@@ -137,8 +65,8 @@ sub new_cart {
 
     my @items = @{ delete $info->{items} || [] };
 
-    my $buyer_class = $self->_buyer_class;
-    my $cart_class  = $self->_cart_class;
+    my $buyer_class = $self->buyer_class;
+    my $cart_class  = $self->cart_class;
 
     $self->log->debug(
         "Loaded buyer class $buyer_class and cart class $cart_class."
@@ -183,90 +111,6 @@ sub map_object {
     return @result;
 }
 
-sub _get_hidden_inputs_for_cart {
-    my ($self, $cart) = @_;
-
-    return $self->map_object( $self->_checkout_form_cart_map, $cart );
-}
-
-sub _get_hidden_inputs_for_buyer {
-    my ($self, $buyer) = @_;
-
-    return $self->map_object( $self->_checkout_form_buyer_map, $buyer );
-}
-
-sub _get_hidden_inputs_for_items {
-    my ($self, $items) = @_;
-    my @result;
-    my $i = 1;
-
-    for my $item (@$items) {
-        push @result,
-          $self->map_object( $self->_checkout_form_item_map( $i++ ), $item );
-    }
-
-    return @result;
-}
-
-sub _get_hidden_inputs_main {
-    my $self = shift;
-
-    return $self->map_object( $self->_checkout_form_main_map, $self );
-}
-
-sub get_hidden_inputs { shift->_unimplemented }
-
-sub get_form {
-    my ($self, $info) = @_;
-
-    $self->log->info("Get form for payment " . $info->{payment_id});
-
-    my @hidden_inputs = $self->get_hidden_inputs($info);
-
-    if ($self->log->is_debug) {
-        $self->log->debug("Building form with inputs: " . Dumper(\@hidden_inputs));
-        $self->log->debug("form action => " . $self->checkout_url);
-        $self->log->debug("form method => " . $self->checkout_form_http_method);
-    }
-
-    my $form = HTML::Element->new(
-        'form',
-        action => $self->checkout_url,
-        method => $self->checkout_form_http_method,
-    );
-
-    while (@hidden_inputs) {
-        $form->push_content(
-            HTML::Element->new(
-                'input',
-                type  => 'hidden',
-                value => pop @hidden_inputs,
-                name  => pop @hidden_inputs
-            )
-        );
-    }
-
-    my %submit = (
-        name  => $self->checkout_form_submit_name,
-        type  => 'submit',
-    );
-
-    if (my $value = $self->checkout_form_submit_value) {
-        $submit{value} = $value;
-    }
-
-    if (my $src = $self->checkout_form_submit_image) {
-        $submit{src}  = $src;
-        $submit{type} = 'image';
-    }
-
-    $form->push_content(
-        HTML::Element->new( 'input', %submit )
-    );
-
-    return $form;
-}
-
 sub get_notification_details { shift->_unimplemented }
 
 sub query_transactions { shift->_unimplemented }
@@ -288,7 +132,7 @@ __END__
 
 =pod
 
-=encoding utf-8
+=encoding UTF-8
 
 =head1 NAME
 
@@ -296,9 +140,58 @@ Business::CPI::Gateway::Base - Father of all gateways
 
 =head1 VERSION
 
-version 0.908
+version 0.909
 
 =head1 ATTRIBUTES
+
+=head2 driver_name
+
+The name of the driver for this gateway. This is built automatically, but can
+be customized.
+
+Example: for C<Business::CPI::Gateway::TestGateway>, the driver name will be
+C<TestGateway>.
+
+=head2 log
+
+Provide a logger to the gateway. It's the user's responsibility to configure
+the logger. By default, nothing is logged. You could set this to a
+L<Log::Log4perl> object, for instance, to get full logging.
+
+=head2 item_class
+
+The class for the items (products) being purchased. Defaults to
+Business::CPI::${driver_name}::Item if it exists, or
+L<Business::CPI::Base::Item> otherwise.
+
+=head2 cart_class
+
+The class for the shopping cart (the complete order). Defaults to
+Business::CPI::${driver_name}::Cart if it exists, or
+L<Business::CPI::Base::Cart> otherwise.
+
+=head2 buyer_class
+
+The class for the buyer (the sender). Defaults to
+Business::CPI::${driver_name}::Buyer if it exists, or
+L<Business::CPI::Base::Buyer> otherwise.
+
+=head2 account_class
+
+The class for the accounts. Defaults to Business::CPI::${driver_name}::Account
+if it exists, or L<Business::CPI::Base::Account> otherwise.
+
+=head2 account_address_class
+
+The class for the addresses for the accounts. Defaults to
+Business::CPI::${driver_name}::Account::Address if it exists, or
+L<Business::CPI::Base::Account::Address> otherwise.
+
+=head2 account_business_class
+
+The class for the business information of accounts. Defaults to
+Business::CPI::${driver_name}::Account::Business if it exists, or
+L<Business::CPI::Base::Account::Business> otherwise.
 
 =head2 receiver_id
 
@@ -315,11 +208,6 @@ always the case.
 =head2 currency
 
 Currency code, such as BRL, EUR, USD, etc.
-
-=head2 log
-
-Provide a logger to the gateway. It's the user's responsibility to configure
-the logger. By default, nothing is logged.
 
 =head2 notification_url
 
@@ -338,37 +226,11 @@ it will use the payment token generated for it. Defaults to false.
 
 The url the application will post the form to. Defined by the gateway.
 
-=head2 checkout_form_http_method
-
-Defaults to post.
-
-=head2 checkout_form_submit_name
-
-Defaults to submit.
-
-=head2 checkout_form_submit_value
-
-Defaults to ''.
-
-=head2 checkout_form_submit_image
-
-If set, makes the submit button become an image. Set this to the URL of the
-image you want to display in the checkout button. Defaults to '' (i.e., no
-image, default brower submit button).
-
-=head2 form_encoding
-
-Defaults to UTF-8.
-
 =head1 METHODS
-
-=head2 BUILDARGS
-
-Simply makes the receiver_id alias work.
 
 =head2 new_cart
 
-Creates a new L<Business::CPI::Cart> connected to this gateway.
+Creates a new L<Business::CPI::Role::Cart> connected to this gateway.
 
 =head2 new_account
 
@@ -376,15 +238,10 @@ Creates a new instance of an account. In general, you shouldn't need to use
 this, except for testing. Use C<create_account>, instead, if your driver
 provides it.
 
-=head2 get_form
-
-Get the form to checkout. Use the method in L<Business::CPI::Cart>, don't use
-this method directly.
-
 =head2 get_checkout_code
 
 Generates a payment token for a given cart. Do not call this method directly.
-Instead, see L<Business::CPI::Cart/get_checkout_code>.
+Instead, see L<Business::CPI::Role::Cart/get_checkout_code>.
 
 =head2 get_notification_details
 
@@ -399,13 +256,6 @@ Search past transactions.
 
 Get more details about a given transaction.
 
-=head2 get_hidden_inputs
-
-This method is called when building the checkout form. It will return a hashref
-with the field names and field values for the form. This way the gateway will
-implement only this method, while the rest of the form will be built by this
-class.
-
 =head2 notify
 
 This is supposed to be called when the gateway sends a notification about a
@@ -418,6 +268,8 @@ still under discussion, and is soon to be documented.
 Helper method for get_hidden_inputs to translate between Business::CPI and the
 gateway, using methods like checkout_form_items_map, checkout_form_buyer_map,
 etc.
+
+=for Pod::Coverage BUILDARGS
 
 =head1 AUTHOR
 

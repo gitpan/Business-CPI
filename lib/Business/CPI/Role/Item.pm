@@ -1,45 +1,49 @@
-package Business::CPI::Item;
-# ABSTRACT: Product in the cart
-use Moo;
-use Business::CPI::Types qw/stringified_money/;
+package Business::CPI::Role::Item;
+# ABSTRACT: Role to represent a product in the cart
+use Moo::Role;
+use MooX::Types::MooseLike::Base qw/Int/;
+use Business::CPI::Util::Types qw/Money to_Money/;
 
-our $VERSION = '0.908'; # VERSION
+our $VERSION = '0.909'; # TRIAL VERSION
 
 has id => (
-    coerce => sub { '' . $_[0] },
-    is => 'ro',
+    coerce   => sub { '' . $_[0] },
+    is       => 'ro',
     required => 1,
 );
 
 has price => (
-    coerce => \&stringified_money,
-    is => 'ro',
+    coerce   => \&to_Money,
+    isa      => Money,
+    is       => 'ro',
     required => 1,
 );
 
 has weight => (
     coerce => sub { 0 + $_[0] },
-    is => 'ro',
+    is     => 'ro',
 );
 
 has shipping => (
-    coerce => \&stringified_money,
-    is => 'ro',
+    coerce => \&to_Money,
+    isa    => Money,
+    is     => 'ro',
 );
 
 has shipping_additional => (
-    coerce => \&stringified_money,
-    is => 'ro',
+    coerce => \&to_Money,
+    isa    => Money,
+    is     => 'ro',
 );
 
 has description => (
     coerce => sub { '' . $_[0] },
-    is => 'ro',
+    is     => 'ro',
 );
 
 has quantity => (
-    coerce => sub { int $_[0] },
-    is => 'ro',
+    isa     => Int,
+    is      => 'ro',
     default => sub { 1 },
 );
 
@@ -49,15 +53,15 @@ __END__
 
 =pod
 
-=encoding utf-8
+=encoding UTF-8
 
 =head1 NAME
 
-Business::CPI::Item - Product in the cart
+Business::CPI::Role::Item - Role to represent a product in the cart
 
 =head1 VERSION
 
-version 0.908
+version 0.909
 
 =head1 DESCRIPTION
 
