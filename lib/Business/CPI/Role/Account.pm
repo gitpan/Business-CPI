@@ -5,7 +5,7 @@ use utf8;
 use MooX::Types::MooseLike::Base qw/Bool/;
 use Business::CPI::Util::Types qw/PhoneNumber to_PhoneNumber EmailAddress DateTime/;
 
-our $VERSION = '0.909'; # TRIAL VERSION
+our $VERSION = '0.910'; # VERSION
 
 # TODO: Validate this? URI.pm seems to accept anything
 # actually... does this really belong here???
@@ -131,7 +131,7 @@ Business::CPI::Role::Account - Manage accounts in the gateway
 
 =head1 VERSION
 
-version 0.909
+version 0.910
 
 =head1 SYNOPSIS
 

@@ -27,12 +27,13 @@ my %WriteMakefileArgs = (
     "Locale::Country" => 0,
     "Locale::Currency" => 0,
     "Moo" => 1,
+    "MooX::Types::MooseLike" => 0,
     "Scalar::Util" => 0
   },
   "TEST_REQUIRES" => {
     "Test::Exception" => "0.32"
   },
-  "VERSION" => "0.909",
+  "VERSION" => "0.910",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -47,6 +48,7 @@ my %FallbackPrereqs = (
   "Locale::Country" => 0,
   "Locale::Currency" => 0,
   "Moo" => 1,
+  "MooX::Types::MooseLike" => 0,
   "Scalar::Util" => 0,
   "Test::Exception" => "0.32"
 );

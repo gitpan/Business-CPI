@@ -3,7 +3,7 @@ package Business::CPI::Gateway::Test;
 
 use Moo;
 
-our $VERSION = '0.909'; # TRIAL VERSION
+our $VERSION = '0.910'; # VERSION
 
 extends 'Business::CPI::Gateway::Base';
 with 'Business::CPI::Role::Gateway::FormCheckout';
@@ -15,7 +15,7 @@ sub get_hidden_inputs {
     my $cart  = $info->{cart};
 
     my @hidden_inputs = (
-        receiver_email => $self->receiver_email,
+        receiver_email => $self->receiver_id,
         currency       => $self->currency,
         encoding       => $self->form_encoding,
         payment_id     => $info->{payment_id},
@@ -76,6 +76,17 @@ sub get_hidden_inputs {
         $i++;
     }
 
+    $i = 1;
+
+    foreach my $receiver (@{ $cart->_receivers }) {
+        push @hidden_inputs,
+          (
+            "receiver${i}_id"      => $receiver->account->gateway_id,
+            "receiver${i}_percent" => sprintf("%.2f", 0+$receiver->percent_amount),
+          );
+        $i++;
+    }
+
     return @hidden_inputs;
 }
 
@@ -99,7 +110,7 @@ Business::CPI::Gateway::Test - Fake gateway
 
 =head1 VERSION
 
-version 0.909
+version 0.910
 
 =head1 DESCRIPTION
 

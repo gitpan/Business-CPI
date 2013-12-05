@@ -4,7 +4,7 @@ use Moo::Role;
 use MooX::Types::MooseLike::Base qw/Int/;
 use Business::CPI::Util::Types qw/Money to_Money/;
 
-our $VERSION = '0.909'; # TRIAL VERSION
+our $VERSION = '0.910'; # VERSION
 
 has id => (
     coerce   => sub { '' . $_[0] },
@@ -61,7 +61,7 @@ Business::CPI::Role::Item - Role to represent a product in the cart
 
 =head1 VERSION
 
-version 0.909
+version 0.910
 
 =head1 DESCRIPTION
 

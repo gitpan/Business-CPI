@@ -3,16 +3,15 @@ package Business::CPI::Gateway::Base;
 use Moo;
 use Locale::Currency ();
 use Data::Dumper;
+use Carp qw/croak/;
 
 with 'Business::CPI::Role::Gateway::Base';
 
-our $VERSION = '0.909'; # TRIAL VERSION
+our $VERSION = '0.910'; # VERSION
 
-has receiver_email => (
+has receiver_id => (
     is => 'ro',
 );
-
-sub receiver_id { goto \&receiver_email }
 
 has checkout_url => (
     is => 'rw',
@@ -37,16 +36,6 @@ has currency => (
     is => 'ro',
 );
 
-around BUILDARGS => sub {
-    my $orig  = shift;
-    my $class = shift;
-    my $args  = $class->$orig(@_);
-
-    $args->{receiver_email} = $args->{receiver_id} if $args->{receiver_id};
-
-    return $args;
-};
-
 sub new_account {
     my ($self, $account) = @_;
 
@@ -63,10 +52,16 @@ sub new_cart {
         $self->log->debug("Building a cart with: " . Dumper($info));
     }
 
-    my @items = @{ delete $info->{items} || [] };
+    my @items     = @{ delete $info->{items}     || [] };
+    my @receivers = @{ delete $info->{receivers} || [] };
 
     my $buyer_class = $self->buyer_class;
     my $cart_class  = $self->cart_class;
+
+    # We might be using a more generic Account class
+    if ($buyer_class->does('Business::CPI::Role::Account')) {
+        $info->{buyer}{_gateway} = $self;
+    }
 
     $self->log->debug(
         "Loaded buyer class $buyer_class and cart class $cart_class."
@@ -84,6 +79,10 @@ sub new_cart {
 
     for (@items) {
         $cart->add_item($_);
+    }
+
+    for (@receivers) {
+        $cart->add_receiver($_);
     }
 
     return $cart;
@@ -126,6 +125,18 @@ sub _unimplemented {
     die "Not implemented.";
 }
 
+around BUILDARGS => sub {
+    my $orig = shift;
+    my $self = shift;
+    my $args = $self->$orig(@_);
+
+    if ($args->{receiver_email}) {
+        croak 'receiver_email attribute has been removed - use receiver_id instead';
+    }
+
+    return $args;
+};
+
 1;
 
 __END__
@@ -140,7 +151,7 @@ Business::CPI::Gateway::Base - Father of all gateways
 
 =head1 VERSION
 
-version 0.909
+version 0.910
 
 =head1 ATTRIBUTES
 
@@ -197,13 +208,6 @@ L<Business::CPI::Base::Account::Business> otherwise.
 
 ID, login or e-mail of the business owner. The way the gateway uniquely
 identifies the account owner.
-
-=head2 receiver_email
-
-E-mail of the business owner. Currently, this an alias for receiver_id, for
-backcompatibility. The attribute is called C<receiver_email> only because some
-gateways set the account identification as the user's e-mail, but that's not
-always the case.
 
 =head2 currency
 

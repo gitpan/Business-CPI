@@ -5,7 +5,7 @@ use utf8;
 use Business::CPI::Util;
 use Business::CPI::Util::EmptyLogger;
 
-our $VERSION = '0.909'; # TRIAL VERSION
+our $VERSION = '0.910'; # VERSION
 
 has driver_name => (
     is      => 'ro',
@@ -30,6 +30,11 @@ has cart_class => (
 has buyer_class => (
     is => 'lazy',
     default => sub { shift->_load_class('Buyer') },
+);
+
+has receiver_class => (
+    is => 'lazy',
+    default => sub { shift->_load_class('Receiver') },
 );
 
 has account_class => (
@@ -65,7 +70,7 @@ Business::CPI::Role::Gateway::Base - Basic role for all gateway drivers
 
 =head1 VERSION
 
-version 0.909
+version 0.910
 
 =head1 ATTRIBUTES
 
@@ -100,6 +105,11 @@ L<Business::CPI::Base::Cart> otherwise.
 The class for the buyer (the sender). Defaults to
 Business::CPI::${driver_name}::Buyer if it exists, or
 L<Business::CPI::Base::Buyer> otherwise.
+
+=head2 receiver_class
+
+The class for the receivers. Defaults to Business::CPI::${driver_name}::Receiver
+if it exists, or L<Business::CPI::Base::Receiver> otherwise.
 
 =head2 account_class
 

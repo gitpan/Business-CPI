@@ -4,7 +4,6 @@ MANIFEST
 META.yml
 Makefile.PL
 README
-TODO
 cpanfile
 lib/Business/CPI.pm
 lib/Business/CPI/Base/Account.pm
@@ -13,6 +12,7 @@ lib/Business/CPI/Base/Account/Business.pm
 lib/Business/CPI/Base/Buyer.pm
 lib/Business/CPI/Base/Cart.pm
 lib/Business/CPI/Base/Item.pm
+lib/Business/CPI/Base/Receiver.pm
 lib/Business/CPI/Gateway/Base.pm
 lib/Business/CPI/Gateway/Test.pm
 lib/Business/CPI/Role/Account.pm
@@ -23,6 +23,7 @@ lib/Business/CPI/Role/Cart.pm
 lib/Business/CPI/Role/Gateway/Base.pm
 lib/Business/CPI/Role/Gateway/FormCheckout.pm
 lib/Business/CPI/Role/Item.pm
+lib/Business/CPI/Role/Receiver.pm
 lib/Business/CPI/Util.pm
 lib/Business/CPI/Util/EmptyLogger.pm
 lib/Business/CPI/Util/Types.pm
@@ -34,5 +35,6 @@ t/03account_business.t
 t/03buyer.t
 t/04extra_charges.t
 t/05logger.t
+t/06receivers.t
 xt/release/pod-coverage.t
 xt/release/pod-syntax.t

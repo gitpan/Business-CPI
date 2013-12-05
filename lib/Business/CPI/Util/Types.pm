@@ -9,7 +9,7 @@ use MooX::Types::MooseLike::Base;
 use Locale::Country ();
 use Email::Valid ();
 
-our $VERSION = '0.909'; # TRIAL VERSION
+our $VERSION = '0.910'; # VERSION
 
 our @EXPORT_OK = qw/to_Money to_PhoneNumber to_Country/;
 our %EXPORT_TAGS = (all => \@EXPORT_OK);
@@ -95,7 +95,7 @@ Business::CPI::Util::Types - Basic types for Business::CPI
 
 =head1 VERSION
 
-version 0.909
+version 0.910
 
 =head1 DESCRIPTION
 

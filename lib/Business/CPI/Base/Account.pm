@@ -3,7 +3,7 @@ package Business::CPI::Base::Account;
 use utf8;
 use Moo;
 
-our $VERSION = '0.909'; # TRIAL VERSION
+our $VERSION = '0.910'; # VERSION
 
 with 'Business::CPI::Role::Account';
 
@@ -21,7 +21,7 @@ Business::CPI::Base::Account - General implementation of Account role
 
 =head1 VERSION
 
-version 0.909
+version 0.910
 
 =head1 DESCRIPTION
 
