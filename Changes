@@ -1,5 +1,8 @@
 Revision history for Perl module Business::CPI.
 
+0.911 2013-12-09T03:16:54Z
+    - Documentation fixes (regarding receiver_id)
+
 0.910 2013-12-05T13:54:49Z
     - Create Receivers role and class
     - Remove receiver_email attribute in favor of receiver_id

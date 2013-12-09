@@ -4,7 +4,7 @@ use utf8;
 use Moo;
 with 'Business::CPI::Role::Account::Business';
 
-our $VERSION = '0.910'; # VERSION
+our $VERSION = '0.911'; # VERSION
 
 1;
 
@@ -20,7 +20,7 @@ Business::CPI::Base::Account::Business - General implementation of Account::Busi
 
 =head1 VERSION
 
-version 0.910
+version 0.911
 
 =head1 DESCRIPTION
 

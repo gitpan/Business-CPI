@@ -5,7 +5,7 @@ use warnings;
 use strict;
 use Class::Load ();
 
-our $VERSION = '0.910'; # VERSION
+our $VERSION = '0.911'; # VERSION
 
 sub new {
     my $class = shift;
@@ -34,19 +34,19 @@ Business::CPI - Common Payment Interface
 
 =head1 VERSION
 
-version 0.910
+version 0.911
 
 =head1 SYNOPSIS
 
     # the objects are created with the same keys
     my $paypal = Business::CPI->new(
-        gateway        => "PayPal",
-        receiver_email => "test@example.com",
+        gateway     => "PayPal",
+        receiver_id => "test@example.com",
         ...
     );
     my $pagseguro = Business::CPI->new(
-        gateway        => "PagSeguro",
-        receiver_email => "test@example.com",
+        gateway     => "PagSeguro",
+        receiver_id => "test@example.com",
         ...
     );
 
