@@ -4,7 +4,7 @@ use utf8;
 use Moo::Role;
 use MooX::Types::MooseLike::Base qw/Bool/;
 
-our $VERSION = '0.911'; # VERSION
+our $VERSION = '0.912'; # VERSION
 
 has _gateway => (
     is       => 'rw',
@@ -17,6 +17,12 @@ has account => (
 );
 
 has is_primary => (
+    is      => 'rw',
+    isa     => Bool,
+    default => sub { 0 },
+);
+
+has pay_gateway_fee => (
     is      => 'rw',
     isa     => Bool,
     default => sub { 0 },
@@ -55,7 +61,7 @@ Business::CPI::Role::Receiver - The person receiving the money
 
 =head1 VERSION
 
-version 0.911
+version 0.912
 
 =head1 SYNOPSIS
 
@@ -65,14 +71,16 @@ version 0.911
         receivers => [
             {
                 # alias for account.gateway_id
-                gateway_id     => 2313,
+                gateway_id      => 2313,
 
-                fixed_amount   => 50.00,
-                percent_amount => 5.00,
+                fixed_amount    => 50.00,
+                percent_amount  => 5.00,
+                pay_gateway_fee => 1,
             },
             {
-                account      => $cpi->account_class->new({ ... }),
-                fixed_amount => 250.00,
+                account         => $cpi->account_class->new({ ... }),
+                fixed_amount    => 250.00,
+                pay_gateway_fee => 0,
             },
         ],
     });
@@ -104,6 +112,12 @@ never both.
 Boolean. Is this the main account receiving the money, or secondary? Defaults
 to false, i.e., it's a secondary receiver.
 
+=head2 pay_gateway_fee
+
+Boolean attribute to define whether this receiver should be the one paying the
+gateway fees. Similar to the "feesPayer" parameter in Adaptive Payments in
+PayPal.
+
 =head2 fixed_amount
 
 The value, in the chosen currency, this receiver is getting of the payment.
@@ -118,7 +132,7 @@ André Walker <andre@andrewalker.net>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2013 by André Walker.
+This software is copyright (c) 2014 by André Walker.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

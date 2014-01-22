@@ -6,7 +6,7 @@ use Scalar::Util qw/blessed/;
 use Carp qw/croak/;
 use Business::CPI::Util::Types qw/Money to_Money/;
 
-our $VERSION = '0.911'; # VERSION
+our $VERSION = '0.912'; # VERSION
 
 has id => ( is => 'rw' );
 has gateway_id => ( is => 'rw' );
@@ -21,21 +21,24 @@ has buyer => (
 );
 
 has tax => (
-    coerce => \&to_Money,
-    isa    => Money,
-    is     => 'rw',
+    coerce  => \&to_Money,
+    isa     => Money,
+    is      => 'rw',
+    default => sub { 0 },
 );
 
 has handling => (
-    coerce => \&to_Money,
-    isa    => Money,
-    is     => 'rw',
+    coerce  => \&to_Money,
+    isa     => Money,
+    is      => 'rw',
+    default => sub { 0 },
 );
 
 has discount => (
-    coerce => \&to_Money,
-    isa    => Money,
-    is     => 'rw',
+    coerce  => \&to_Money,
+    isa     => Money,
+    is      => 'rw',
+    default => sub { 0 },
 );
 
 has _gateway => (
@@ -138,7 +141,7 @@ Business::CPI::Role::Cart - Shopping cart or an order
 
 =head1 VERSION
 
-version 0.911
+version 0.912
 
 =head1 DESCRIPTION
 
@@ -206,7 +209,7 @@ André Walker <andre@andrewalker.net>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2013 by André Walker.
+This software is copyright (c) 2014 by André Walker.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

@@ -5,7 +5,7 @@ use utf8;
 use Business::CPI::Util;
 use Business::CPI::Util::EmptyLogger;
 
-our $VERSION = '0.911'; # VERSION
+our $VERSION = '0.912'; # VERSION
 
 has driver_name => (
     is      => 'ro',
@@ -70,7 +70,7 @@ Business::CPI::Role::Gateway::Base - Basic role for all gateway drivers
 
 =head1 VERSION
 
-version 0.911
+version 0.912
 
 =head1 ATTRIBUTES
 
@@ -134,7 +134,7 @@ André Walker <andre@andrewalker.net>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2013 by André Walker.
+This software is copyright (c) 2014 by André Walker.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
