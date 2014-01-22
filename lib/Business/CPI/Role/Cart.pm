@@ -6,7 +6,7 @@ use Scalar::Util qw/blessed/;
 use Carp qw/croak/;
 use Business::CPI::Util::Types qw/Money to_Money/;
 
-our $VERSION = '0.912'; # VERSION
+our $VERSION = '0.913'; # VERSION
 
 has id => ( is => 'rw' );
 has gateway_id => ( is => 'rw' );
@@ -141,7 +141,7 @@ Business::CPI::Role::Cart - Shopping cart or an order
 
 =head1 VERSION
 
-version 0.912
+version 0.913
 
 =head1 DESCRIPTION
 

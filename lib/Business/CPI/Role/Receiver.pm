@@ -4,7 +4,7 @@ use utf8;
 use Moo::Role;
 use MooX::Types::MooseLike::Base qw/Bool/;
 
-our $VERSION = '0.912'; # VERSION
+our $VERSION = '0.913'; # VERSION
 
 has _gateway => (
     is       => 'rw',
@@ -25,7 +25,6 @@ has is_primary => (
 has pay_gateway_fee => (
     is      => 'rw',
     isa     => Bool,
-    default => sub { 0 },
 );
 
 has fixed_amount   => ( is => 'rw', coerce => sub { 0 + $_[0] } );
@@ -61,7 +60,7 @@ Business::CPI::Role::Receiver - The person receiving the money
 
 =head1 VERSION
 
-version 0.912
+version 0.913
 
 =head1 SYNOPSIS
 

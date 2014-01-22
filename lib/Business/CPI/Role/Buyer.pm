@@ -4,7 +4,7 @@ use Moo::Role;
 use Locale::Country ();
 use Business::CPI::Util::Types qw/EmailAddress/;
 
-our $VERSION = '0.912'; # VERSION
+our $VERSION = '0.913'; # VERSION
 
 has email => (
     isa => EmailAddress,
@@ -88,7 +88,7 @@ Business::CPI::Role::Buyer - Information about the client
 
 =head1 VERSION
 
-version 0.912
+version 0.913
 
 =head1 DESCRIPTION
 
