@@ -4,7 +4,7 @@ use Moo::Role;
 use utf8;
 use Business::CPI::Util::Types qw/Country to_Country/;
 
-our $VERSION = '0.913'; # VERSION
+our $VERSION = '0.914'; # VERSION
 
 # TODO:
 # move this to Business::CPI core
@@ -62,7 +62,7 @@ Business::CPI::Role::Account::Address - Business::CPI role for Addresses
 
 =head1 VERSION
 
-version 0.913
+version 0.914
 
 =head1 SYNOPSIS
 

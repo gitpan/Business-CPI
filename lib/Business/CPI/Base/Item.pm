@@ -4,7 +4,7 @@ use utf8;
 use Moo;
 with 'Business::CPI::Role::Item';
 
-our $VERSION = '0.913'; # VERSION
+our $VERSION = '0.914'; # VERSION
 
 1;
 
@@ -20,7 +20,7 @@ Business::CPI::Base::Item - General implementation of Item role
 
 =head1 VERSION
 
-version 0.913
+version 0.914
 
 =head1 DESCRIPTION
 

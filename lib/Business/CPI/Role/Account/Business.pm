@@ -3,7 +3,7 @@ package Business::CPI::Role::Account::Business;
 use Moo::Role;
 use utf8;
 
-our $VERSION = '0.913'; # VERSION
+our $VERSION = '0.914'; # VERSION
 
 has _gateway => ( is => 'ro', required => 1 );
 
@@ -60,7 +60,7 @@ Business::CPI::Role::Account::Business - Business::CPI representation of corpora
 
 =head1 VERSION
 
-version 0.913
+version 0.914
 
 =head1 SYNOPSIS
 
