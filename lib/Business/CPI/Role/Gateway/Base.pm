@@ -5,7 +5,7 @@ use utf8;
 use Business::CPI::Util;
 use Business::CPI::Util::EmptyLogger;
 
-our $VERSION = '0.914'; # VERSION
+our $VERSION = '0.915'; # VERSION
 
 has driver_name => (
     is      => 'ro',
@@ -70,7 +70,7 @@ Business::CPI::Role::Gateway::Base - Basic role for all gateway drivers
 
 =head1 VERSION
 
-version 0.914
+version 0.915
 
 =head1 ATTRIBUTES
 

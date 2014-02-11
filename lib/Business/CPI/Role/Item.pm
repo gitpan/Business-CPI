@@ -4,7 +4,7 @@ use Moo::Role;
 use MooX::Types::MooseLike::Base qw/Int/;
 use Business::CPI::Util::Types qw/Money to_Money/;
 
-our $VERSION = '0.914'; # VERSION
+our $VERSION = '0.915'; # VERSION
 
 has id => (
     coerce   => sub { '' . $_[0] },
@@ -25,15 +25,17 @@ has weight => (
 );
 
 has shipping => (
-    coerce => \&to_Money,
-    isa    => Money,
-    is     => 'ro',
+    coerce    => \&to_Money,
+    isa       => Money,
+    is        => 'ro',
+    predicate => 1,
 );
 
 has shipping_additional => (
-    coerce => \&to_Money,
-    isa    => Money,
-    is     => 'ro',
+    coerce    => \&to_Money,
+    isa       => Money,
+    is        => 'ro',
+    predicate => 1,
 );
 
 has description => (
@@ -61,7 +63,7 @@ Business::CPI::Role::Item - Role to represent a product in the cart
 
 =head1 VERSION
 
-version 0.914
+version 0.915
 
 =head1 DESCRIPTION
 
@@ -105,6 +107,16 @@ shipping2.
 
 The weight of this item. If you define the L</shipping>, this will probably be
 ignored by the gateway.
+
+=head1 METHODS
+
+=head2 has_shipping
+
+Predicate for shipping attribute.
+
+=head2 has_shipping_additional
+
+Predicate for shipping_additional attribute.
 
 =head1 AUTHOR
 

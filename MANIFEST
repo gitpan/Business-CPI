@@ -36,5 +36,6 @@ t/03buyer.t
 t/04extra_charges.t
 t/05logger.t
 t/06receivers.t
+t/07calc_cart_amounts.t
 xt/release/pod-coverage.t
 xt/release/pod-syntax.t

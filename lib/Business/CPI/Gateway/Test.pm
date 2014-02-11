@@ -3,7 +3,7 @@ package Business::CPI::Gateway::Test;
 
 use Moo;
 
-our $VERSION = '0.914'; # VERSION
+our $VERSION = '0.915'; # VERSION
 
 extends 'Business::CPI::Gateway::Base';
 with 'Business::CPI::Role::Gateway::FormCheckout';
@@ -110,7 +110,7 @@ Business::CPI::Gateway::Test - Fake gateway
 
 =head1 VERSION
 
-version 0.914
+version 0.915
 
 =head1 DESCRIPTION
 
