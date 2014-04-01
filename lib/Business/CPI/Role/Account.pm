@@ -2,10 +2,11 @@ package Business::CPI::Role::Account;
 # ABSTRACT: Manage accounts in the gateway
 use Moo::Role;
 use utf8;
-use MooX::Types::MooseLike::Base qw/Bool/;
-use Business::CPI::Util::Types qw/PhoneNumber to_PhoneNumber EmailAddress DateTime/;
+use Business::CPI::Util::Types qw/PhoneNumber DateTime/;
+use Type::EmailAddress qw/EmailAddress/;
+use Types::Standard qw/Bool/;
 
-our $VERSION = '0.915'; # VERSION
+our $VERSION = '0.916'; # VERSION
 
 # TODO: Validate this? URI.pm seems to accept anything
 # actually... does this really belong here???
@@ -25,7 +26,7 @@ has last_name  => ( is => 'rw' );
 has phone => (
     is     => 'rw',
     isa    => PhoneNumber,
-    coerce => \&to_PhoneNumber,
+    coerce => PhoneNumber->coercion,
 );
 
 has login => ( is => 'rw' );
@@ -131,7 +132,7 @@ Business::CPI::Role::Account - Manage accounts in the gateway
 
 =head1 VERSION
 
-version 0.915
+version 0.916
 
 =head1 SYNOPSIS
 

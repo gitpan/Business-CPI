@@ -4,10 +4,11 @@ package Business::CPI::Role::Cart;
 use Moo::Role;
 use Scalar::Util qw/blessed/;
 use Carp qw/croak/;
-use Business::CPI::Util::Types qw/Money to_Money/;
+use Business::CPI::Util::Types qw/Money/;
+use Types::Standard qw/ArrayRef/;
 use List::Util qw/sum/;
 
-our $VERSION = '0.915'; # VERSION
+our $VERSION = '0.916'; # VERSION
 
 has id => ( is => 'rw' );
 has gateway_id => ( is => 'rw' );
@@ -22,30 +23,30 @@ has buyer => (
 );
 
 has tax => (
-    coerce  => \&to_Money,
+    coerce  => Money->coercion,
     isa     => Money,
     is      => 'rw',
     default => sub { 0 },
 );
 
 has handling => (
-    coerce  => \&to_Money,
+    coerce  => Money->coercion,
     isa     => Money,
     is      => 'rw',
     default => sub { 0 },
 );
 
 has discount => (
-    coerce  => \&to_Money,
+    coerce  => Money->coercion,
     isa     => Money,
     is      => 'rw',
     default => sub { 0 },
 );
 
 has shipping => (
-    coerce => \&to_Money,
-    isa    => Money,
-    is     => 'rw',
+    coerce  => Money->coercion,
+    isa     => Money,
+    is      => 'rw',
     default => sub { 0 },
 );
 
@@ -60,11 +61,13 @@ has _gateway => (
 );
 
 has _items => (
+    isa => ArrayRef,
     is => 'ro',
     default => sub { [] },
 );
 
 has _receivers => (
+    isa => ArrayRef,
     is => 'ro',
     default => sub { [] },
 );
@@ -186,7 +189,7 @@ Business::CPI::Role::Cart - Shopping cart or an order
 
 =head1 VERSION
 
-version 0.915
+version 0.916
 
 =head1 DESCRIPTION
 
