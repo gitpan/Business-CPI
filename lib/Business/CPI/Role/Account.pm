@@ -6,7 +6,7 @@ use Business::CPI::Util::Types qw/PhoneNumber DateTime/;
 use Type::EmailAddress qw/EmailAddress/;
 use Types::Standard qw/Bool/;
 
-our $VERSION = '0.916'; # VERSION
+our $VERSION = '0.917'; # VERSION
 
 # TODO: Validate this? URI.pm seems to accept anything
 # actually... does this really belong here???
@@ -132,7 +132,7 @@ Business::CPI::Role::Account - Manage accounts in the gateway
 
 =head1 VERSION
 
-version 0.916
+version 0.917
 
 =head1 SYNOPSIS
 

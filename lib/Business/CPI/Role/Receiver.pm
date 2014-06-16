@@ -5,11 +5,16 @@ use Moo::Role;
 use Business::CPI::Util::Types qw/Money/;
 use Types::Standard qw/Bool/;
 
-our $VERSION = '0.916'; # VERSION
+our $VERSION = '0.917'; # VERSION
 
 has _gateway => (
     is       => 'rw',
     required => 1,
+);
+
+has gateway_fee => (
+    is       => 'rwp',
+    required => 0,
 );
 
 has account => (
@@ -69,7 +74,7 @@ Business::CPI::Role::Receiver - The person receiving the money
 
 =head1 VERSION
 
-version 0.916
+version 0.917
 
 =head1 SYNOPSIS
 
@@ -125,6 +130,10 @@ to false, i.e., it's a secondary receiver.
 Boolean attribute to define whether this receiver should be the one paying the
 gateway fees. Similar to the "feesPayer" parameter in Adaptive Payments in
 PayPal.
+
+=head2 gateway_fee
+
+The fee amount this receiver was charged by the gateway.
 
 =head2 fixed_amount
 

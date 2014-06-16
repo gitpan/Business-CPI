@@ -13,7 +13,7 @@ use Type::Library
    -base,
    -declare => qw( DateTime Country Money PhoneNumber );
 
-our $VERSION = '0.916'; # VERSION
+our $VERSION = '0.917'; # VERSION
 
 class_type DateTime, { class => "DateTime" };
 
@@ -83,7 +83,7 @@ Business::CPI::Util::Types - Basic types for Business::CPI
 
 =head1 VERSION
 
-version 0.916
+version 0.917
 
 =head1 DESCRIPTION
 

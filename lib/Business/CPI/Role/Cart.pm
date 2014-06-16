@@ -8,10 +8,11 @@ use Business::CPI::Util::Types qw/Money/;
 use Types::Standard qw/ArrayRef/;
 use List::Util qw/sum/;
 
-our $VERSION = '0.916'; # VERSION
+our $VERSION = '0.917'; # VERSION
 
 has id => ( is => 'rw' );
 has gateway_id => ( is => 'rw' );
+has gateway_fee => ( is => 'rwp' );
 
 has buyer => (
     is  => 'ro',
@@ -189,7 +190,7 @@ Business::CPI::Role::Cart - Shopping cart or an order
 
 =head1 VERSION
 
-version 0.916
+version 0.917
 
 =head1 DESCRIPTION
 
@@ -205,6 +206,10 @@ The id of the cart, if your application has one set for it.
 =head2 gateway_id
 
 The id your gateway has set for this cart, if there is one.
+
+=head2 gateway_fee
+
+The fee your gateway has charged for this cart, if there is one.
 
 =head2 buyer
 
