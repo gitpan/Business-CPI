@@ -4,7 +4,7 @@ use utf8;
 use Moo;
 with 'Business::CPI::Role::Cart';
 
-our $VERSION = '0.917'; # VERSION
+our $VERSION = '0.918'; # VERSION
 
 1;
 
@@ -20,7 +20,7 @@ Business::CPI::Base::Cart - General implementation of Cart role
 
 =head1 VERSION
 
-version 0.917
+version 0.918
 
 =head1 DESCRIPTION
 

@@ -11,9 +11,23 @@ use Type::Utils -all;
 use Types::Standard qw/Str/;
 use Type::Library
    -base,
-   -declare => qw( DateTime Country Money PhoneNumber );
+   -declare => qw( DateTime Country Money PhoneNumber ExceptionType );
 
-our $VERSION = '0.917'; # VERSION
+our $VERSION = '0.918'; # VERSION
+
+enum ExceptionType, [qw.
+    invalid_data
+    incomplete_data
+    invalid_request
+    resource_not_found
+    unauthorized
+    unauthenticated
+    duplicate_transaction
+    rejected
+    gateway_unavailable
+    gateway_error
+    unknown
+.];
 
 class_type DateTime, { class => "DateTime" };
 
@@ -83,7 +97,7 @@ Business::CPI::Util::Types - Basic types for Business::CPI
 
 =head1 VERSION
 
-version 0.917
+version 0.918
 
 =head1 DESCRIPTION
 

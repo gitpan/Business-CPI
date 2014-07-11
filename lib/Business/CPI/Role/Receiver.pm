@@ -5,7 +5,7 @@ use Moo::Role;
 use Business::CPI::Util::Types qw/Money/;
 use Types::Standard qw/Bool/;
 
-our $VERSION = '0.917'; # VERSION
+our $VERSION = '0.918'; # VERSION
 
 has _gateway => (
     is       => 'rw',
@@ -74,7 +74,7 @@ Business::CPI::Role::Receiver - The person receiving the money
 
 =head1 VERSION
 
-version 0.917
+version 0.918
 
 =head1 SYNOPSIS
 

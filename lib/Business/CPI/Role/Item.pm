@@ -4,7 +4,7 @@ use Moo::Role;
 use Business::CPI::Util::Types qw/Money/;
 use Types::Standard qw/Str Int Num/;
 
-our $VERSION = '0.917'; # VERSION
+our $VERSION = '0.918'; # VERSION
 
 has id => (
     coerce   => Str->coercion,
@@ -67,7 +67,7 @@ Business::CPI::Role::Item - Role to represent a product in the cart
 
 =head1 VERSION
 
-version 0.917
+version 0.918
 
 =head1 DESCRIPTION
 
