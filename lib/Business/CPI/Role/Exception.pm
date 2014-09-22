@@ -5,7 +5,7 @@ use Types::Standard qw/Int Str HashRef/;
 use Business::CPI::Util::Types qw/ExceptionType/;
 with 'Throwable';
 
-our $VERSION = '0.918'; # VERSION
+our $VERSION = '0.919'; # VERSION
 
 has type => (
     coerce   => ExceptionType->coercion,
@@ -15,14 +15,12 @@ has type => (
 );
 
 has message => (
-    coerce   => Str->coercion,
     isa      => Str,
     is       => 'ro',
     required => 1,
 );
 
 has gateway_data => (
-    coerce   => HashRef->coercion,
     isa      => HashRef,
     is       => 'ro',
     required => 1,
@@ -42,7 +40,7 @@ Business::CPI::Role::Exception - Exceptions from the gateway
 
 =head1 VERSION
 
-version 0.918
+version 0.919
 
 =head1 DESCRIPTION
 

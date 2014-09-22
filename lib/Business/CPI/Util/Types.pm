@@ -13,7 +13,7 @@ use Type::Library
    -base,
    -declare => qw( DateTime Country Money PhoneNumber ExceptionType );
 
-our $VERSION = '0.918'; # VERSION
+our $VERSION = '0.919'; # VERSION
 
 enum ExceptionType, [qw.
     invalid_data
@@ -97,7 +97,7 @@ Business::CPI::Util::Types - Basic types for Business::CPI
 
 =head1 VERSION
 
-version 0.918
+version 0.919
 
 =head1 DESCRIPTION
 

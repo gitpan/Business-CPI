@@ -31,12 +31,12 @@ my %WriteMakefileArgs = (
     "Scalar::Util" => 0,
     "Throwable" => 0,
     "Type::EmailAddress" => 0,
-    "Type::Tiny" => 0
+    "Type::Tiny" => 1
   },
   "TEST_REQUIRES" => {
     "Test::Exception" => "0.32"
   },
-  "VERSION" => "0.918",
+  "VERSION" => "0.919",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -56,7 +56,7 @@ my %FallbackPrereqs = (
   "Test::Exception" => "0.32",
   "Throwable" => 0,
   "Type::EmailAddress" => 0,
-  "Type::Tiny" => 0
+  "Type::Tiny" => 1
 );
 
 

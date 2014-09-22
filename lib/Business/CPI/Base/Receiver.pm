@@ -5,7 +5,7 @@ use Moo;
 
 with 'Business::CPI::Role::Receiver';
 
-our $VERSION = '0.918'; # VERSION
+our $VERSION = '0.919'; # VERSION
 
 1;
 
@@ -21,7 +21,7 @@ Business::CPI::Base::Receiver - General implementation of Receiver role
 
 =head1 VERSION
 
-version 0.918
+version 0.919
 
 =head1 DESCRIPTION
 

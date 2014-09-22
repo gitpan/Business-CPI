@@ -7,7 +7,7 @@ use Carp qw/croak/;
 
 with 'Business::CPI::Role::Gateway::Base';
 
-our $VERSION = '0.918'; # VERSION
+our $VERSION = '0.919'; # VERSION
 
 has receiver_id => (
     is => 'ro',
@@ -151,7 +151,7 @@ Business::CPI::Gateway::Base - Father of all gateways
 
 =head1 VERSION
 
-version 0.918
+version 0.919
 
 =head1 ATTRIBUTES
 

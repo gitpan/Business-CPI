@@ -3,7 +3,7 @@ package Business::CPI::Role::Status;
 use Moo::Role;
 use Types::Standard qw/Bool Str/;
 
-our $VERSION = '0.918'; # VERSION
+our $VERSION = '0.919'; # VERSION
 
 has is_success => (
     coerce   => Bool->coercion,
@@ -47,7 +47,7 @@ Business::CPI::Role::Status - Status of operations in the gateway
 
 =head1 VERSION
 
-version 0.918
+version 0.919
 
 =head1 SYNOPSIS
 
