@@ -10,10 +10,10 @@ use Email::Valid ();
 use Type::Utils -all;
 use Types::Standard qw/Str/;
 use Type::Library
-   -base,
-   -declare => qw( DateTime Country Money PhoneNumber ExceptionType );
+  -base,
+  -declare => qw( DateTime Country Money PhoneNumber ExceptionType UserAgent );
 
-our $VERSION = '0.919'; # VERSION
+our $VERSION = '0.920'; # VERSION
 
 enum ExceptionType, [qw.
     invalid_data
@@ -30,6 +30,8 @@ enum ExceptionType, [qw.
 .];
 
 class_type DateTime, { class => "DateTime" };
+
+class_type UserAgent, { class => 'LWP::UserAgent' };
 
 my @CountryCodes = Locale::Country::all_country_codes();
 
@@ -97,7 +99,7 @@ Business::CPI::Util::Types - Basic types for Business::CPI
 
 =head1 VERSION
 
-version 0.919
+version 0.920
 
 =head1 DESCRIPTION
 

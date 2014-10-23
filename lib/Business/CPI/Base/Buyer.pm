@@ -5,7 +5,7 @@ use Moo;
 
 with 'Business::CPI::Role::Buyer';
 
-our $VERSION = '0.919'; # VERSION
+our $VERSION = '0.920'; # VERSION
 
 1;
 
@@ -21,7 +21,7 @@ Business::CPI::Base::Buyer - General implementation of Buyer role
 
 =head1 VERSION
 
-version 0.919
+version 0.920
 
 =head1 DESCRIPTION
 

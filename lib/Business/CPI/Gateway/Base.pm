@@ -4,10 +4,12 @@ use Moo;
 use Locale::Currency ();
 use Data::Dumper;
 use Carp qw/croak/;
+use Business::CPI::Util::Types qw/UserAgent/;
+use LWP::UserAgent;
 
 with 'Business::CPI::Role::Gateway::Base';
 
-our $VERSION = '0.919'; # VERSION
+our $VERSION = '0.920'; # VERSION
 
 has receiver_id => (
     is => 'ro',
@@ -35,6 +37,15 @@ has currency => (
     coerce => sub { uc $_[0] },
     is => 'ro',
 );
+
+has user_agent => (
+    is => 'rwp',
+    isa => UserAgent,
+    lazy => 1,
+    builder => '_build_user_agent',
+);
+
+has error => ( is => 'rwp' );
 
 sub new_account {
     my ($self, $account) = @_;
@@ -125,6 +136,15 @@ sub _unimplemented {
     die "Not implemented.";
 }
 
+sub _build_user_agent {
+    my ($self) = @_;
+
+    my $class_name = ref $self;
+    my $version = eval { $self->VERSION } || 'devel';
+
+    return LWP::UserAgent->new(agent => "$class_name/$version");
+}
+
 around BUILDARGS => sub {
     my $orig = shift;
     my $self = shift;
@@ -151,7 +171,7 @@ Business::CPI::Gateway::Base - Father of all gateways
 
 =head1 VERSION
 
-version 0.919
+version 0.920
 
 =head1 ATTRIBUTES
 
@@ -229,6 +249,31 @@ it will use the payment token generated for it. Defaults to false.
 =head2 checkout_url
 
 The url the application will post the form to. Defined by the gateway.
+
+=head2 user_agent
+
+User agent object (using L<LWP::UserAgent>'s API) to make requests to the gateway.
+
+=head2 error
+
+Whenever an exception is thrown, this attribute will also hold the exception
+object. This is because $@ may be overwritten before the exception is handled.
+
+So one can use:
+
+    try {
+        # do something that will trigger an exception
+        $cpi->get_cart('something that doesnt exist');
+    }
+    catch {
+        if ($cpi->error->type eq 'resource_not_found') {
+            warn "Oops, it doesn't exist.";
+        }
+
+        # $cpi->error is the same as $_ and $_[0], unless someone messed up
+        # with $@, e.g., using $SIG{__DIE__} or something nasty like that. In
+        # that case, $_ is lost, but $cpi->error is safe.
+    }
 
 =head1 METHODS
 

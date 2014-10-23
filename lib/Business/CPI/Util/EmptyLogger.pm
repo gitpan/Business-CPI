@@ -3,7 +3,7 @@ package Business::CPI::Util::EmptyLogger;
 use warnings;
 use strict;
 
-our $VERSION = '0.919'; # VERSION
+our $VERSION = '0.920'; # VERSION
 
 sub new      { bless {}, shift }
 sub is_debug {}
@@ -27,7 +27,7 @@ Business::CPI::Util::EmptyLogger - Default null logger
 
 =head1 VERSION
 
-version 0.919
+version 0.920
 
 =head1 DESCRIPTION
 
