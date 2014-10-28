@@ -4,7 +4,7 @@ use utf8;
 use Moo;
 with 'Business::CPI::Role::Status';
 
-our $VERSION = '0.920'; # VERSION
+our $VERSION = '0.921'; # VERSION
 
 1;
 
@@ -20,7 +20,7 @@ Business::CPI::Base::Status - General implementation of Status role
 
 =head1 VERSION
 
-version 0.920
+version 0.921
 
 =head1 DESCRIPTION
 

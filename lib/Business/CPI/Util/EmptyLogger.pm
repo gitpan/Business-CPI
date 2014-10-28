@@ -3,15 +3,21 @@ package Business::CPI::Util::EmptyLogger;
 use warnings;
 use strict;
 
-our $VERSION = '0.920'; # VERSION
+our $VERSION = '0.921'; # VERSION
 
 sub new      { bless {}, shift }
-sub is_debug {}
+
 sub debug    {}
 sub info     {}
 sub warn     {}
 sub error    {}
 sub fatal    {}
+
+sub is_debug {}
+sub is_info  {}
+sub is_warn  {}
+sub is_error {}
+sub is_fatal {}
 
 1;
 
@@ -27,7 +33,7 @@ Business::CPI::Util::EmptyLogger - Default null logger
 
 =head1 VERSION
 
-version 0.920
+version 0.921
 
 =head1 DESCRIPTION
 
@@ -47,8 +53,6 @@ Log::Dispatcher, etc) when building the Business::CPI gateway object, such as:
 
 Constructor.
 
-=head2 is_debug
-
 =head2 debug
 
 =head2 info
@@ -61,6 +65,18 @@ Constructor.
 
 None of these do anything. It's called by Business::CPI internally, but it's
 just a placeholder.
+
+=head2 is_debug
+
+=head2 is_info
+
+=head2 is_warn
+
+=head2 is_error
+
+=head2 is_fatal
+
+All return false by default.
 
 =head1 AUTHOR
 

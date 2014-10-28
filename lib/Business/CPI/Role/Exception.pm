@@ -5,7 +5,7 @@ use Types::Standard qw/Int Str HashRef/;
 use Business::CPI::Util::Types qw/ExceptionType/;
 with 'Throwable';
 
-our $VERSION = '0.920'; # VERSION
+our $VERSION = '0.921'; # VERSION
 
 has type => (
     coerce   => ExceptionType->coercion,
@@ -40,7 +40,7 @@ Business::CPI::Role::Exception - Exceptions from the gateway
 
 =head1 VERSION
 
-version 0.920
+version 0.921
 
 =head1 DESCRIPTION
 
