@@ -11,9 +11,12 @@ use Type::Utils -all;
 use Types::Standard qw/Str/;
 use Type::Library
   -base,
-  -declare => qw( DateTime Country Money PhoneNumber ExceptionType UserAgent );
+  -declare => qw(
+     DateTime Country Money PhoneNumber
+     ExceptionType UserAgent HTTPResponse
+  );
 
-our $VERSION = '0.921'; # VERSION
+our $VERSION = '0.922'; # VERSION
 
 enum ExceptionType, [qw.
     invalid_data
@@ -32,6 +35,7 @@ enum ExceptionType, [qw.
 class_type DateTime, { class => "DateTime" };
 
 class_type UserAgent, { class => 'LWP::UserAgent' };
+class_type HTTPResponse, { class => 'HTTP::Response' };
 
 my @CountryCodes = Locale::Country::all_country_codes();
 
@@ -99,7 +103,7 @@ Business::CPI::Util::Types - Basic types for Business::CPI
 
 =head1 VERSION
 
-version 0.921
+version 0.922
 
 =head1 DESCRIPTION
 

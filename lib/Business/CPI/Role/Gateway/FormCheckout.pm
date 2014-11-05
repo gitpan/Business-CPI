@@ -5,7 +5,7 @@ use Moo::Role;
 use HTML::Element;
 use Data::Dumper;
 
-our $VERSION = '0.921'; # VERSION
+our $VERSION = '0.922'; # VERSION
 
 requires 'map_object', 'get_hidden_inputs', 'checkout_url';
 
@@ -131,7 +131,7 @@ Business::CPI::Role::Gateway::FormCheckout - Provide a checkout with simple HTML
 
 =head1 VERSION
 
-version 0.921
+version 0.922
 
 =head1 ATTRIBUTES
 

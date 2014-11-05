@@ -5,7 +5,7 @@ use strict;
 use utf8;
 use Class::Load ();
 
-our $VERSION = '0.921'; # VERSION
+our $VERSION = '0.922'; # VERSION
 
 sub load_class {
     my ($driver_name, $class_name) = @_;
@@ -29,7 +29,7 @@ Business::CPI::Util - Utilities for Business::CPI
 
 =head1 VERSION
 
-version 0.921
+version 0.922
 
 =head1 METHODS
 

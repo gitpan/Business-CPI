@@ -4,12 +4,13 @@ use Moo;
 use Locale::Currency ();
 use Data::Dumper;
 use Carp qw/croak/;
-use Business::CPI::Util::Types qw/UserAgent/;
+use Business::CPI::Util::Types qw/UserAgent HTTPResponse/;
+use Types::Standard qw/Maybe/;
 use LWP::UserAgent;
 
 with 'Business::CPI::Role::Gateway::Base';
 
-our $VERSION = '0.921'; # VERSION
+our $VERSION = '0.922'; # VERSION
 
 has receiver_id => (
     is => 'ro',
@@ -43,6 +44,11 @@ has user_agent => (
     isa => UserAgent,
     lazy => 1,
     builder => '_build_user_agent',
+);
+
+has most_recent_request => (
+    is => 'rwp',
+    isa => Maybe[HTTPResponse],
 );
 
 has error => ( is => 'rwp' );
@@ -171,7 +177,7 @@ Business::CPI::Gateway::Base - Father of all gateways
 
 =head1 VERSION
 
-version 0.921
+version 0.922
 
 =head1 ATTRIBUTES
 
@@ -274,6 +280,20 @@ So one can use:
         # with $@, e.g., using $SIG{__DIE__} or something nasty like that. In
         # that case, $_ is lost, but $cpi->error is safe.
     }
+
+=head2 most_recent_request
+
+Whenever a request is made to the gateway, this attribute will hold the
+HTTP::Response object returned by the request.
+
+B<Note:> this is meant to be used for custom logging in the application.
+Usually, it's better to keep all the request-related details handled by
+Business::CPI, and abstract all the low-level details to the user. That
+includes logging, for the most part. The object returned by each method
+implemented by Business::CPI should be enough in most cases.
+
+If you find yourself having to use this attribute too much, it probably means
+that gateway's Business::CPI driver is not doing what it should.
 
 =head1 METHODS
 

@@ -8,7 +8,7 @@ use Business::CPI::Util::Types qw/Money/;
 use Types::Standard qw/ArrayRef/;
 use List::Util qw/sum/;
 
-our $VERSION = '0.921'; # VERSION
+our $VERSION = '0.922'; # VERSION
 
 has id => ( is => 'rw' );
 has gateway_id => ( is => 'rw' );
@@ -190,7 +190,7 @@ Business::CPI::Role::Cart - Shopping cart or an order
 
 =head1 VERSION
 
-version 0.921
+version 0.922
 
 =head1 DESCRIPTION
 
