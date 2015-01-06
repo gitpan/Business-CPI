@@ -3,7 +3,7 @@ package Business::CPI::Role::Status;
 use Moo::Role;
 use Types::Standard qw/Bool Str/;
 
-our $VERSION = '0.922'; # VERSION
+our $VERSION = '0.923'; # VERSION
 
 has is_success => (
     coerce   => Bool->coercion,
@@ -47,7 +47,7 @@ Business::CPI::Role::Status - Status of operations in the gateway
 
 =head1 VERSION
 
-version 0.922
+version 0.923
 
 =head1 SYNOPSIS
 
@@ -168,7 +168,7 @@ André Walker <andre@andrewalker.net>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2014 by André Walker.
+This software is copyright (c) 2015 by André Walker.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
